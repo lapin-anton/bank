@@ -1,0 +1,160 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres_practicum_bank
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  keycloak:
+    image: keycloak/keycloak:26.2.4
+    container_name: keycloak_practicum_bank
+    env_file:
+      - .env
+    ports:
+      - "8480:8080"
+      - "8454:5005"
+    volumes:
+      - keycloak_data:/opt/keycloak/data/import
+      - ./keycloak-themes:/opt/keycloak/themes
+    command:
+      - start-dev
+    depends_on:
+      - postgres
+
+  consul:
+    image: consul:1.15
+    container_name: consul
+    ports:
+      - "8500:8500"
+      - "8600:8600/udp"
+    command: "agent -dev -client=0.0.0.0"
+
+  config:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: config/Dockerfile
+    container_name: config_practicum_bank
+    ports:
+      - "8888:8888"
+    depends_on:
+      - consul
+      - postgres
+      - keycloak
+
+  account:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: services/account/Dockerfile
+    container_name: account_practicum_bank
+    ports:
+      - "8082:8082"
+    depends_on:
+      - config
+
+  blocker:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: services/blocker/Dockerfile
+    container_name: blocker_practicum_bank
+    ports:
+      - "8087:8087"
+    depends_on:
+      - config
+
+  cash:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: services/cash/Dockerfile
+    container_name: cash_practicum_bank
+    ports:
+      - "8083:8083"
+    depends_on:
+      - config
+
+  exchange:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: services/exchange/Dockerfile
+    container_name: exchange_practicum_bank
+    ports:
+      - "8084:8084"
+    depends_on:
+      - config
+
+  exchange_generator:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: services/exchange-generator/Dockerfile
+    container_name: exchange_generator_practicum_bank
+    ports:
+      - "8085:8085"
+    depends_on:
+      - config
+
+  front_ui:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: services/front-ui/Dockerfile
+    container_name: front_ui_practicum_bank
+    ports:
+      - "8081:8081"
+    depends_on:
+      - config
+
+  notification:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: services/notification/Dockerfile
+    container_name: notification_practicum_bank
+    ports:
+      - "8088:8088"
+    depends_on:
+      - config
+
+  transfer:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: services/transfer/Dockerfile
+    container_name: transfer_practicum_bank
+    ports:
+      - "8086:8086"
+    depends_on:
+      - config
+
+  gateway:
+    env_file:
+      - .env
+    build:
+      context: .
+      dockerfile: gateway/Dockerfile
+    container_name: gateway_practicum_bank
+    ports:
+      - "8080:8080"
+    depends_on:
+      - config
+
+volumes:
+  postgres_data:
+  keycloak_data:

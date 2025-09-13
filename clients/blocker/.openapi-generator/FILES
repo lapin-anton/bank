@@ -1,0 +1,10 @@
+.openapi-generator-ignore
+README.md
+pom.xml
+src/main/java/org/openapitools/configuration/ApiKeyRequestInterceptor.java
+src/main/java/org/openapitools/configuration/ClientConfiguration.java
+src/main/java/ru/yandex/practicum/bank/client/blocker/api/BlockerApi.java
+src/main/java/ru/yandex/practicum/bank/client/blocker/api/BlockerApiClient.java
+src/main/java/ru/yandex/practicum/bank/client/blocker/model/CashCheckDto.java
+src/main/java/ru/yandex/practicum/bank/client/blocker/model/ResultCheckDto.java
+src/main/java/ru/yandex/practicum/bank/client/blocker/model/TransferCheckDto.java

@@ -1,0 +1,8 @@
+.openapi-generator-ignore
+README.md
+pom.xml
+src/main/java/org/openapitools/configuration/ApiKeyRequestInterceptor.java
+src/main/java/org/openapitools/configuration/ClientConfiguration.java
+src/main/java/ru/yandex/practicum/bank/client/transfer/api/TransferApi.java
+src/main/java/ru/yandex/practicum/bank/client/transfer/api/TransferApiClient.java
+src/main/java/ru/yandex/practicum/bank/client/transfer/model/TransferDto.java

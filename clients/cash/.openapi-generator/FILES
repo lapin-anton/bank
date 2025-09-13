@@ -1,0 +1,8 @@
+.openapi-generator-ignore
+README.md
+pom.xml
+src/main/java/org/openapitools/configuration/ApiKeyRequestInterceptor.java
+src/main/java/org/openapitools/configuration/ClientConfiguration.java
+src/main/java/ru/yandex/practicum/bank/client/cash/api/CashApi.java
+src/main/java/ru/yandex/practicum/bank/client/cash/api/CashApiClient.java
+src/main/java/ru/yandex/practicum/bank/client/cash/model/CashTransactionDto.java

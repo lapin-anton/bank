@@ -1,0 +1,12 @@
+.openapi-generator-ignore
+README.md
+pom.xml
+src/main/java/org/openapitools/configuration/ApiKeyRequestInterceptor.java
+src/main/java/org/openapitools/configuration/ClientConfiguration.java
+src/main/java/ru/yandex/practicum/bank/client/exchange/api/ExchangeApi.java
+src/main/java/ru/yandex/practicum/bank/client/exchange/api/ExchangeApiClient.java
+src/main/java/ru/yandex/practicum/bank/client/exchange/model/ConvertRequestDto.java
+src/main/java/ru/yandex/practicum/bank/client/exchange/model/ConvertResponseDto.java
+src/main/java/ru/yandex/practicum/bank/client/exchange/model/Currency.java
+src/main/java/ru/yandex/practicum/bank/client/exchange/model/RateDto.java
+src/main/java/ru/yandex/practicum/bank/client/exchange/model/UpdateExchangeRate200Response.java

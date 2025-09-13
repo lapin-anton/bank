@@ -5,7 +5,7 @@ plugins {
     id("org.openapi.generator") version "7.12.0"
 }
 
-group = "ru.abramov.practicum"
+group = "ru.yandex.practicum"
 version = "0.0.1-SNAPSHOT"
 
 repositories {

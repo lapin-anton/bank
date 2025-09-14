@@ -1,0 +1,12 @@
+
+spring:
+  config:
+    import: "configserver:"
+
+  application:
+    name: gateway
+
+  cloud:
+    config:
+      uri: ${CONFIG_URL}
+      fail-fast: true

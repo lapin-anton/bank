@@ -1,0 +1,228 @@
+openapi: 3.0.3
+info:
+  title: Account API
+  version: 1.0.0
+  description: API для управления банковскими счетами пользователей
+
+servers:
+  - url: http://localhost:8080/api/account
+
+security:
+  - bearerAuth: [ ]
+
+paths:
+  /user:
+    get:
+      summary: Получить список счетов текущего пользователя
+      operationId: getCurrentUserAccounts
+      tags:
+        - Account
+      security:
+        - bearerAuth: [ ]
+      responses:
+        '200':
+          description: Список счетов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountDto'
+    post:
+      summary: Создать новый счёт
+      operationId: addAccount
+      tags:
+        - Account
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpenAccountDto'
+      responses:
+        '201':
+          description: Счёт успешно создан
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+
+  /user/{userId}:
+    get:
+      summary: Получить счета по ID пользователя
+      operationId: getAccountsByUserId
+      tags:
+        - Account
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: Идентификатор пользователя
+      responses:
+        '200':
+          description: Список счетов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountDto'
+
+    delete:
+      summary: Удалить счёт по ID
+      operationId: deleteAccount
+      tags:
+        - Account
+      security:
+        - bearerAuth: [ ]
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID счёта
+      responses:
+        '200':
+          description: Счёт удалён
+
+  /{numberAccount}:
+    get:
+      summary: Получить счёт по номеру
+      operationId: getAccountByNumber
+      tags:
+        - Account
+      parameters:
+        - in: path
+          name: numberAccount
+          required: true
+          schema:
+            type: string
+          description: Номер счёта
+      responses:
+        '200':
+          description: Данные счёта
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountDto'
+
+  /{id}/block:
+    patch:
+      summary: Заблокировать счёт
+      operationId: blockAccount
+      tags:
+        - Account
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID счёта
+      responses:
+        '200':
+          description: Счёт заблокирован
+
+  /{id}/balance:
+    patch:
+      summary: Изменить баланс счёта
+      operationId: changeBalance
+      tags:
+        - Account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeBalanceDto'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+          description: ID счёта
+      responses:
+        '200':
+          description: Баланс успешно изменён
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    AccountDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1001
+        number:
+          type: string
+          example: "40817810099910004321"
+        userId:
+          type: string
+          example: "user-123"
+        balance:
+          type: string
+          format: decimal
+          example: "5000.00"
+          description: Сумма на счете (BigDecimal)
+        status:
+          $ref: '#/components/schemas/AccountStatus'
+        currency:
+          $ref: '#/components/schemas/Currency'
+        version:
+          type: integer
+          format: int64
+          example: 5
+
+    OpenAccountDto:
+      type: object
+      properties:
+        currency:
+          $ref: '#/components/schemas/Currency'
+      required:
+        - currency
+
+    ChangeBalanceDto:
+      type: object
+      properties:
+        amount:
+          type: string
+          format: decimal
+          example: "5000.00"
+          description: Сумма изменения баланса (BigDecimal)
+        version:
+          type: integer
+          format: int64
+          example: 1
+      required:
+        - amount
+        - version
+
+    AccountStatus:
+      type: string
+      enum:
+        - ACTIVE
+        - BLOCKED
+        - CLOSED
+
+    Currency:
+      type: string
+      enum:
+        - RUB
+        - USD
+        - EUR

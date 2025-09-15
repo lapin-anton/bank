@@ -1,0 +1,72 @@
+openapi: 3.0.3
+info:
+  title: Cash API
+  version: 1.0.0
+  description: API для операций по пополнению и снятию средств с банковских счетов
+
+servers:
+  - url: http://localhost:8080/api/cash
+
+security:
+  - bearerAuth: [ ]
+
+paths:
+  /put:
+    put:
+      summary: Пополнение счёта
+      operationId: putCash
+      tags:
+        - Cash
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashTransactionDto'
+      responses:
+        '200':
+          description: Средства успешно зачислены
+
+  /withdraw:
+    put:
+      summary: Снятие со счёта
+      operationId: withdrawCash
+      tags:
+        - Cash
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashTransactionDto'
+      responses:
+        '200':
+          description: Средства успешно списаны
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CashTransactionDto:
+      type: object
+      required:
+        - accountNumber
+        - amount
+      properties:
+        accountNumber:
+          type: string
+          example: "40817810099910004321"
+          description: Номер счёта для операции
+        amount:
+          type: string
+          format: decimal
+          example: "2500.00"
+          description: Сумма операции (BigDecimal)

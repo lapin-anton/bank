@@ -1,0 +1,11 @@
+spring:
+  config:
+    import: "configserver:"
+
+  application:
+    name: cash
+
+  cloud:
+    config:
+      uri: ${CONFIG_URL}
+      fail-fast: true

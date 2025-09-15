@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: Blocker API
+  version: 1.0.0
+  description: API для проверок блокировок операций пополнения и перевода средств
+
+servers:
+  - url: http://localhost:8080/api/blocker
+
+security:
+  - bearerAuth: [ ]
+
+paths:
+  /cash:
+    post:
+      summary: Проверка операции пополнения
+      operationId: checkCash
+      tags:
+        - blocker
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CashCheckDto'
+      responses:
+        '200':
+          description: Результат проверки
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultCheckDto'
+
+  /transfer:
+    post:
+      summary: Проверка операции перевода
+      operationId: checkTransfer
+      tags:
+        - blocker
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferCheckDto'
+      responses:
+        '200':
+          description: Результат проверки
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultCheckDto'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CashCheckDto:
+      type: object
+      required:
+        - accountNumber
+        - amount
+      properties:
+        accountNumber:
+          type: string
+          example: "40817810099910001111"
+          description: Номер счёта для проверки
+        amount:
+          type: string
+          format: decimal
+          example: "1000.00"
+          description: Сумма операции
+
+    TransferCheckDto:
+      type: object
+      required:
+        - fromAccount
+        - toAccount
+        - amount
+      properties:
+        fromAccount:
+          type: string
+          example: "40817810099910001111"
+          description: Счёт списания
+        toAccount:
+          type: string
+          example: "40817810099910002222"
+          description: Счёт зачисления
+        amount:
+          type: string
+          format: decimal
+          example: "1500.00"
+          description: Сумма перевода
+
+    ResultCheckDto:
+      type: object
+      required:
+        - result
+      properties:
+        result:
+          type: boolean
+          example: true
+          description: Результат проверки (true — операция разрешена)

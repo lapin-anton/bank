@@ -1,0 +1,11 @@
+spring:
+  config:
+    import: "configserver:"
+
+  application:
+    name: transfer
+
+  cloud:
+    config:
+      uri: ${CONFIG_URL}
+      fail-fast: true

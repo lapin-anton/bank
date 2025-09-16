@@ -1,0 +1,59 @@
+openapi: 3.0.3
+info:
+  title: Transfer API
+  version: 1.0.0
+  description: API для перевода средств между счетами
+
+servers:
+  - url: http://localhost:8080/api/transfer
+
+security:
+  - bearerAuth: [ ]
+
+paths:
+  /:
+    post:
+      summary: Перевод средств между счетами
+      operationId: transfer
+      tags:
+        - transfer
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferDto'
+      responses:
+        '200':
+          description: Перевод успешно выполнен
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    TransferDto:
+      type: object
+      required:
+        - fromAccount
+        - toAccount
+        - amount
+      properties:
+        fromAccount:
+          type: string
+          example: "40817810099910001111"
+          description: Номер счёта списания
+        toAccount:
+          type: string
+          example: "40817810099910002222"
+          description: Номер счёта зачисления
+        amount:
+          type: string
+          format: decimal
+          example: "5000.00"
+          description: Сумма перевода (BigDecimal)

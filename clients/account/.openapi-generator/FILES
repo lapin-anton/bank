@@ -1,0 +1,11 @@
+README.md
+pom.xml
+src/main/java/org/openapitools/configuration/ApiKeyRequestInterceptor.java
+src/main/java/org/openapitools/configuration/ClientConfiguration.java
+src/main/java/ru/yandex/practicum/bank/client/account/api/AccountApi.java
+src/main/java/ru/yandex/practicum/bank/client/account/api/AccountApiClient.java
+src/main/java/ru/yandex/practicum/bank/client/account/model/AccountDto.java
+src/main/java/ru/yandex/practicum/bank/client/account/model/AccountStatus.java
+src/main/java/ru/yandex/practicum/bank/client/account/model/ChangeBalanceDto.java
+src/main/java/ru/yandex/practicum/bank/client/account/model/Currency.java
+src/main/java/ru/yandex/practicum/bank/client/account/model/OpenAccountDto.java

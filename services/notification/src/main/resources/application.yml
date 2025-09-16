@@ -1,0 +1,11 @@
+spring:
+  config:
+    import: "configserver:"
+
+  application:
+    name: notification
+
+  cloud:
+    config:
+      uri: ${CONFIG_URL}
+      fail-fast: true

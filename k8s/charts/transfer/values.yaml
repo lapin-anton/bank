@@ -1,0 +1,25 @@
+image:
+  repository: transfer-practicum-bank
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8086
+
+env:
+  JAVA_OPTS: "-Xms256m -Xmx512m"
+
+configMap:
+  jwtIssuerUri: ""
+  api:
+    account: ""
+    cash: ""
+    blocker: ""
+    notification: ""
+    exchange: ""
+    transfer: ""
+
+resources: {}

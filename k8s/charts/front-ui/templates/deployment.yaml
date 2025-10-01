@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-ui
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: front-ui
+  template:
+    metadata:
+      labels:
+        app: front-ui
+    spec:
+      containers:
+        - name: front-ui
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: JAVA_OPTS
+              value: "{{ .Values.env.JAVA_OPTS }}"
+
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.global.spring.profile | default "default" | quote }}
+
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: front-ui-config
+                  key: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URI
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: front-ui-config
+                  key: SERVER_PORT
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_REDIRECT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: front-ui-config
+                  key: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_REDIRECT_URL
+            - name: API_ACCOUNT
+              valueFrom:
+                configMapKeyRef:
+                  name: front-ui-config
+                  key: API_ACCOUNT
+            - name: API_CASH
+              valueFrom:
+                configMapKeyRef:
+                  name: front-ui-config
+                  key: API_CASH
+            - name: API_TRANSFER
+              valueFrom:
+                configMapKeyRef:
+                  name: front-ui-config
+                  key: API_TRANSFER
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: front-ui-secret
+                  key: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_CLIENT_ID
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: front-ui-secret
+                  key: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_KEYCLOAK_SECRET
+            - name: KEYCLOAK_ADMIN_SERVER_URL
+              valueFrom:
+                secretKeyRef:
+                  name: front-ui-secret
+                  key: KEYCLOAK_ADMIN_SERVER_URL
+            - name: KEYCLOAK_ADMIN_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: front-ui-secret
+                  key: KEYCLOAK_ADMIN_USERNAME
+            - name: KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: front-ui-secret
+                  key: KEYCLOAK_ADMIN_PASSWORD
+            - name: KEYCLOAK_ADMIN_REALM
+              valueFrom:
+                secretKeyRef:
+                  name: front-ui-secret
+                  key: KEYCLOAK_ADMIN_REALM

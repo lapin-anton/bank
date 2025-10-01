@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blocker-config
+data:
+  SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: {{ .Values.configMap.jwtIssuerUri | default .Values.global.jwtIssuerUri | quote}}
+  SERVER_PORT: {{ .Values.service.port | quote }}

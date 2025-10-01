@@ -1,0 +1,5 @@
+apiVersion: v2
+name: keycloak
+description: Keycloak for Practicum Bank
+version: 0.1.0
+appVersion: "26.2.4"

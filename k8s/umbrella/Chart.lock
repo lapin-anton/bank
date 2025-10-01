@@ -1,0 +1,33 @@
+dependencies:
+- name: front-ui
+  repository: file://../charts/front-ui
+  version: 0.1.0
+- name: account
+  repository: file://../charts/account
+  version: 0.1.0
+- name: exchange
+  repository: file://../charts/exchange
+  version: 0.1.0
+- name: exchange-generator
+  repository: file://../charts/exchange-generator
+  version: 0.1.0
+- name: blocker
+  repository: file://../charts/blocker
+  version: 0.1.0
+- name: cash
+  repository: file://../charts/cash
+  version: 0.1.0
+- name: notification
+  repository: file://../charts/notification
+  version: 0.1.0
+- name: transfer
+  repository: file://../charts/transfer
+  version: 0.1.0
+- name: keycloak
+  repository: file://../charts/keycloak
+  version: 0.1.0
+- name: postgres
+  repository: file://../charts/postgres
+  version: 0.1.0
+digest: sha256:bef41bf77efe614a7d0c951267dabad04b28522b6f7745f0b18f85ca2a1f3860
+generated: "2025-07-04T10:52:30.093893+03:00"

@@ -1,0 +1,113 @@
+pipeline {
+    agent any
+
+    parameters {
+        choice(name: 'TARGET_ENV', choices: ['dev', 'test', 'prod'], description: 'Куда деплоим?')
+        booleanParam(name: 'MANUAL_DEPLOY', defaultValue: false, description: 'Запуск вручную?')
+    }
+
+    environment {
+        KUBECONFIG = '/home/jenkins/.kube/config'
+        CHART_PATH = 'k8s/umbrella'
+        RELEASE_NAME = 'practicum-bank'
+    }
+
+    options {
+        skipDefaultCheckout()
+        timestamps()
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                dir("${env.WORKSPACE}") {
+                    checkout scm
+                }
+            }
+        }
+
+        stage('Run Unit & Contract Tests') {
+            steps {
+                sh './run-tests.sh'
+            }
+        }
+
+        stage('Build JARs') {
+            steps {
+                sh './run-build.sh'
+            }
+        }
+
+        stage('Build Docker Images') {
+            steps {
+                sh '''
+                    eval $(minikube docker-env)
+
+                    docker build --no-cache -t account-practicum-bank:latest -f services/account/Dockerfile .
+                    docker build --no-cache -t blocker-practicum-bank:latest -f services/blocker/Dockerfile .
+                    docker build --no-cache -t cash-practicum-bank:latest -f services/cash/Dockerfile .
+                    docker build --no-cache -t exchange-generator-practicum-bank:latest -f services/exchange-generator/Dockerfile .
+                    docker build --no-cache -t exchange-practicum-bank:latest -f services/exchange/Dockerfile .
+                    docker build --no-cache -t notification-practicum-bank:latest -f services/notification/Dockerfile .
+                    docker build --no-cache -t transfer-practicum-bank:latest -f services/transfer/Dockerfile .
+                    docker build --no-cache -t front-ui-practicum-bank:latest -f services/front-ui/Dockerfile .
+                '''
+            }
+        }
+
+
+        stage('Update Helm Dependencies') {
+            steps {
+                dir("${CHART_PATH}") {
+                    sh 'helm dependency update'
+                }
+            }
+        }
+
+        stage('Auto Deploy Dev') {
+            when {
+                allOf {
+                    expression { params.MANUAL_DEPLOY == false }
+                    branch 'main'
+                    expression { params.TARGET_ENV == 'dev' }
+                }
+            }
+            steps {
+                script {
+                    deployToEnv('dev')
+                }
+            }
+        }
+
+        stage('Manual Deploy Test/Prod') {
+            when {
+                allOf {
+                    expression { params.MANUAL_DEPLOY == true }
+                    expression { params.TARGET_ENV in ['test', 'prod'] }
+                }
+            }
+            steps {
+                script {
+                    deployToEnv(params.TARGET_ENV)
+                }
+            }
+        }
+    }
+}
+
+def deployToEnv(envName) {
+    def namespace = envName
+    def valuesFile = "values-${envName}.yaml"
+    def secretsFile = "secret-values-${envName}.yaml"
+
+    dir("${CHART_PATH}") {
+        sh """
+            helm upgrade --install ${RELEASE_NAME} . \
+              --namespace ${namespace} \
+              --create-namespace \
+              -f values.yaml \
+              -f ${valuesFile} \
+              -f ${secretsFile}
+        """
+    }
+}

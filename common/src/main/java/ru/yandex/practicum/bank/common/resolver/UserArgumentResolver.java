@@ -60,7 +60,9 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         user.setEmail((String) attributes.get("email"));
         user.setName((String) attributes.get("given_name"));
         user.setFamilyName((String) attributes.get("family_name"));
-        user.setBirthDate(LocalDate.parse((String) attributes.get("birth_date")));
+        if (attributes.get("birth_date") != null) {
+            user.setBirthDate(LocalDate.parse((String) attributes.get("birth_date")));
+        }
 
         return user;
     }

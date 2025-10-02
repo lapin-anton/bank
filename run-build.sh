@@ -8,5 +8,3 @@
 ./gradlew services:front-ui:bootJar
 ./gradlew services:notification:bootJar
 ./gradlew services:transfer:bootJar
-
-docker-compose up --build

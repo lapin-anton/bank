@@ -1,0 +1,26 @@
+image:
+  repository: exchange-generator-practicum-bank
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8085
+
+secrets:
+  oauth2:
+    clientId: ""
+    secret: ""
+
+configMap:
+  jwtIssuerUri: ""
+  keycloakTokenUrl: ""
+  api:
+    exchange: ""
+
+env:
+  JAVA_OPTS: "-Xms256m -Xmx512m"
+
+resources: {}

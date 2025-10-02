@@ -1,0 +1,25 @@
+image:
+  repository: notification-practicum-bank
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8088
+
+secrets:
+  mail:
+    host: ""
+    port: ""
+    username: ""
+    password: ""
+
+configMap:
+  jwtIssuerUri: ""
+
+env:
+  JAVA_OPTS: "-Xms256m -Xmx512m"
+
+resources: {}

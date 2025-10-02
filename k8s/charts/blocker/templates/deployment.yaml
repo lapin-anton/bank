@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blocker
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: blocker
+  template:
+    metadata:
+      labels:
+        app: blocker
+    spec:
+      containers:
+        - name: blocker
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          env:
+            - name: JAVA_OPTS
+              value: "{{ .Values.env.JAVA_OPTS }}"
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.global.spring.profile | default "default" | quote }}
+            - name: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: blocker-config
+                  key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+            - name: SERVER_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: blocker-config
+                  key: SERVER_PORT

@@ -1,0 +1,11 @@
+global:
+  jwtIssuerUri: "http://practicum-bank/realms/bank"
+  keycloakTokenUrl: "http://practicum-bank/realms/bank/protocol/openid-connect/token"
+  keycloakRedirectUrl: "http://practicum-bank/login/oauth2/code/{registrationId}"
+  api:
+    account: "http://practicum-bank/api/account"
+    cash: "http://practicum-bank/api/cash"
+    blocker: "http://practicum-bank/api/blocker"
+    notification: "http://practicum-bank/api/notification"
+    exchange: "http://practicum-bank/api/exchange"
+    transfer: "http://practicum-bank/api/transfer"

@@ -1,11 +1,27 @@
-spring:
-  config:
-    import: "configserver:"
+server:
+  port: ${SERVER_PORT:8084}
 
+spring:
   application:
     name: exchange
 
-  cloud:
-    config:
-      uri: ${CONFIG_URL}
-      fail-fast: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/exchange}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    sql-migration-suffixes: .sql
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI:http://localhost:8480/realms/bank}

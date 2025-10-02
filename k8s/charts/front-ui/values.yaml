@@ -1,0 +1,37 @@
+image:
+  repository: front-ui-practicum-bank
+  tag: latest
+  pullPolicy: IfNotPresent
+
+replicaCount: 1
+
+service:
+  type: ClusterIP
+  port: 8081
+
+configMap:
+  jwtIssuerUri: ""
+  keycloakTokenUrl: ""
+  keycloakRedirectUrl: ""
+  api:
+    account: ""
+    cash: ""
+    blocker: ""
+    notification: ""
+    exchange: ""
+    transfer: ""
+
+secrets:
+  keycloakAdmin:
+    serverUrl: ""
+    username: ""
+    password: ""
+    realm: ""
+  oauth2:
+    clientId: ""
+    clientSecret: ""
+
+env:
+  JAVA_OPTS: "-Xms256m -Xmx512m"
+
+resources: {}

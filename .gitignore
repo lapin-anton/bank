@@ -36,3 +36,19 @@ out/
 ### VS Code ###
 .vscode/
 /.env
+
+### k8s ###
+/k8s/charts/postgres/secret-values-dev.yaml
+/k8s/charts/postgres/secret-values-prod.yaml
+/k8s/charts/postgres/secret-values-test.yaml
+/k8s/charts/account/secret-values-dev.yaml
+/k8s/charts/postgres/templates/init-configmap.yaml
+/k8s/charts/exchange/secret-values-dev.yaml
+/k8s/charts/exchange-generator/secret-values-dev.yaml
+/k8s/charts/keycloak/secret-values-dev.yaml
+/k8s/charts/notification/secret-values-dev.yaml
+/k8s/charts/front-ui/secret-values-dev.yaml
+/k8s/umbrella/secret-values-dev.yaml
+/k8s/umbrella/secret-values-test.yaml
+/k8s/umbrella/secret-values-prod.yaml
+/jenkins/.env

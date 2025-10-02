@@ -1,17 +1,33 @@
-spring:
-  config:
-    import: "configserver:"
+server:
+  port: ${SERVER_PORT:8082}
 
+spring:
   application:
     name: account
 
-  cloud:
-    config:
-      uri: ${CONFIG_URL}
-      fail-fast: true
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/accounts}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    sql-migration-suffixes: .sql
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI:http://localhost:8480/realms/bank}
 
 logging:
   level:
-    org.springframework.cloud.vault: DEBUG
-    org.springframework.cloud.config: DEBUG
-    org.springframework.boot.env: DEBUG
+    org.springframework: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE

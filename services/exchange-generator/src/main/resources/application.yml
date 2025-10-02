@@ -1,11 +1,24 @@
-spring:
-  config:
-    import: "configserver:"
+server:
+  port: ${SERVER_PORT:8085}
 
+spring:
   application:
     name: exchange-generator
 
-  cloud:
-    config:
-      uri: ${CONFIG_URL}
-      fail-fast: true
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            token-uri: ${SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN_URL:http://localhost:8480/realms/bank/protocol/openid-connect/token}
+            issuer-uri: ${SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URL:http://localhost:8480/realms/bank}
+        registration:
+          exchange-generator-client:
+            client-id: ${SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_EXCHANGE_GENERATOR_CLIENT_ID}
+            client-secret: ${SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION__EXCHANGE_GENERATOR_CLIENT_SECRET}
+            authorization-grant-type: client_credentials
+            scope: openid
+            provider: keycloak
+
+api:
+  exchange: ${API_EXCHANGE:http://localhost:8080/api/exchange"}

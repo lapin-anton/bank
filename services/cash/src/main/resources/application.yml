@@ -1,11 +1,18 @@
-spring:
-  config:
-    import: "configserver:"
+server:
+  port: ${SERVER_PORT:8083}
 
+spring:
   application:
     name: cash
 
-  cloud:
-    config:
-      uri: ${CONFIG_URL}
-      fail-fast: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI:http://localhost:8480/realms/bank}
+
+api:
+  account: ${API_ACCOUNT:http://localhost:8082/api/account}
+  cash: ${API_CASH:http://localhost:8080/api/cash}
+  blocker: ${API_BLOCKER:http://localhost:8080/api/blocker}
+  notification: ${API_NOTIFICATION:http://localhost:8080/api/notification}

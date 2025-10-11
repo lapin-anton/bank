@@ -27,7 +27,8 @@ public class ExchangeClient {
                 () -> {
                     log.warn("Fallback: failed to convert from {} to {}", dto.getFromCurrency(), dto.getToCurrency());
                     return null;
-                });
+                }
+        );
     }
 
     public List<RateDto> getExchangeRates() {
@@ -36,17 +37,18 @@ public class ExchangeClient {
                 () -> {
                     log.warn("Fallback: failed to get exchange rates");
                     return Collections.emptyList();
-                });
+                }
+        );
     }
 
     public UpdateExchangeRate200Response updateExchangeRate(RateDto rateDto) {
         return resilience.execute(
                 () -> exchangeApi.updateExchangeRate(rateDto),
                 () -> {
-                    log.warn("Fallback: failed to update exchange rate {} -> {}", rateDto.getCurrency(),
-                            rateDto.getValue());
+                    log.warn("Fallback: failed to update exchange rate {} -> {}", rateDto.getCurrency(), rateDto.getValue());
                     return fallbackRateUpdated(rateDto);
-                });
+                }
+        );
     }
 
     private UpdateExchangeRate200Response fallbackRateUpdated(RateDto dto) {

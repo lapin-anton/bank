@@ -24,7 +24,8 @@ public class CashClient {
                 () -> {
                     log.warn("Fallback triggered: failed to put cash for account={}", dto.getAccountNumber());
                     return null;
-                });
+                }
+        );
     }
 
     public void withdrawCash(CashTransactionDto dto) {
@@ -36,6 +37,7 @@ public class CashClient {
                 () -> {
                     log.warn("Fallback triggered: failed to withdraw cash for account={}", dto.getAccountNumber());
                     return null;
-                });
+                }
+        );
     }
 }

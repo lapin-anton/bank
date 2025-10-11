@@ -1,19 +1,13 @@
 package ru.yandex.practicum.bank.client.cash.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import java.math.BigDecimal;
-import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.*;
 import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * CashTransactionDto
@@ -45,10 +39,9 @@ public class CashTransactionDto {
 
   /**
    * Номер счёта для операции
-   * 
    * @return accountNumber
    */
-  @NotNull
+  @NotNull 
   @Schema(name = "accountNumber", example = "40817810099910004321", description = "Номер счёта для операции", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("accountNumber")
   public String getAccountNumber() {
@@ -66,11 +59,9 @@ public class CashTransactionDto {
 
   /**
    * Сумма операции (BigDecimal)
-   * 
    * @return amount
    */
-  @NotNull
-  @Valid
+  @NotNull @Valid 
   @Schema(name = "amount", example = "2500.00", description = "Сумма операции (BigDecimal)", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("amount")
   public BigDecimal getAmount() {
@@ -120,3 +111,4 @@ public class CashTransactionDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

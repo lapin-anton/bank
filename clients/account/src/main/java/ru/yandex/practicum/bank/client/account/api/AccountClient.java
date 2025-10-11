@@ -21,7 +21,8 @@ public class AccountClient {
     public AccountDto addAccount(OpenAccountDto dto) {
         return resilience.execute(
                 () -> accountApi.addAccount(dto),
-                this::getFallbackAccount);
+                this::getFallbackAccount
+        );
     }
 
     public void blockAccount(Long id) {
@@ -30,7 +31,8 @@ public class AccountClient {
                     accountApi.blockAccount(id);
                     return null;
                 },
-                () -> null);
+                () -> null
+        );
     }
 
     public void changeBalance(Long id, ChangeBalanceDto dto) {
@@ -39,7 +41,8 @@ public class AccountClient {
                     accountApi.changeBalance(id, dto);
                     return null;
                 },
-                () -> null);
+                () -> null
+        );
     }
 
     public void deleteAccount(Long userId) {
@@ -48,25 +51,29 @@ public class AccountClient {
                     accountApi.deleteAccount(userId);
                     return null;
                 },
-                () -> null);
+                () -> null
+        );
     }
 
     public AccountDto getAccountByNumber(String number) {
         return resilience.execute(
                 () -> accountApi.getAccountByNumber(number),
-                this::getFallbackAccount);
+                this::getFallbackAccount
+        );
     }
 
     public List<AccountDto> getAccountsByUserId(String userId) {
         return resilience.execute(
                 () -> accountApi.getAccountsByUserId(userId),
-                Collections::emptyList);
+                Collections::emptyList
+        );
     }
 
     public List<AccountDto> getCurrentUserAccounts() {
         return resilience.execute(
                 accountApi::getCurrentUserAccounts,
-                Collections::emptyList);
+                Collections::emptyList
+        );
     }
 
     private AccountDto getFallbackAccount() {

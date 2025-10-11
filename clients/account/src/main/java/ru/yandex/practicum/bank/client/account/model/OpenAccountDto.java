@@ -1,20 +1,12 @@
 package ru.yandex.practicum.bank.client.account.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import org.springframework.lang.Nullable;
-import ru.yandex.practicum.bank.client.account.model.Currency;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.*;
 import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.Objects;
 
 /**
  * OpenAccountDto
@@ -43,11 +35,9 @@ public class OpenAccountDto {
 
   /**
    * Get currency
-   * 
    * @return currency
    */
-  @NotNull
-  @Valid
+  @NotNull @Valid 
   @Schema(name = "currency", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("currency")
   public Currency getCurrency() {
@@ -95,3 +85,4 @@ public class OpenAccountDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

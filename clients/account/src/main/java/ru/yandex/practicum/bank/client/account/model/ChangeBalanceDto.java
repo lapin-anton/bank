@@ -1,19 +1,13 @@
 package ru.yandex.practicum.bank.client.account.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import java.math.BigDecimal;
-import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.*;
 import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * ChangeBalanceDto
@@ -45,11 +39,9 @@ public class ChangeBalanceDto {
 
   /**
    * Сумма изменения баланса (BigDecimal)
-   * 
    * @return amount
    */
-  @NotNull
-  @Valid
+  @NotNull @Valid 
   @Schema(name = "amount", example = "5000.00", description = "Сумма изменения баланса (BigDecimal)", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("amount")
   public BigDecimal getAmount() {
@@ -67,10 +59,9 @@ public class ChangeBalanceDto {
 
   /**
    * Get version
-   * 
    * @return version
    */
-  @NotNull
+  @NotNull 
   @Schema(name = "version", example = "1", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("version")
   public Long getVersion() {
@@ -120,3 +111,4 @@ public class ChangeBalanceDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

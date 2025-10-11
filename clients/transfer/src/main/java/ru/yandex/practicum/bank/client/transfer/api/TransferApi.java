@@ -5,32 +5,20 @@
  */
 package ru.yandex.practicum.bank.client.transfer.api;
 
-import ru.yandex.practicum.bank.client.transfer.model.TransferDto;
-import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import jakarta.annotation.Generated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.yandex.practicum.bank.client.transfer.model.TransferDto;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-06-14T20:54:57.348613+03:00[Europe/Moscow]", comments = "Generator version: 7.12.0")
 @Validated
@@ -40,18 +28,29 @@ public interface TransferApi {
     /**
      * POST / : Перевод средств между счетами
      *
-     * @param transferDto (required)
+     * @param transferDto  (required)
      * @return Перевод успешно выполнен (status code 200)
      */
-    @Operation(operationId = "transfer", summary = "Перевод средств между счетами", tags = { "transfer" }, responses = {
+    @Operation(
+        operationId = "transfer",
+        summary = "Перевод средств между счетами",
+        tags = { "transfer" },
+        responses = {
             @ApiResponse(responseCode = "200", description = "Перевод успешно выполнен")
-    }, security = {
+        },
+        security = {
             @SecurityRequirement(name = "bearerAuth")
-    })
-    @RequestMapping(method = RequestMethod.POST, value = "/", consumes = "application/json")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/",
+        consumes = "application/json"
+    )
     @ResponseStatus(HttpStatus.OK)
-
+    
     void transfer(
-            @Parameter(name = "TransferDto", description = "", required = true) @Valid @RequestBody TransferDto transferDto);
+        @Parameter(name = "TransferDto", description = "", required = true) @Valid @RequestBody TransferDto transferDto
+    );
 
 }

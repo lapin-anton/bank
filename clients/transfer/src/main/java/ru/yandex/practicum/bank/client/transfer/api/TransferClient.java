@@ -15,6 +15,7 @@ public class TransferClient {
 
     private final ResilienceExecutor resilience;
 
+
     public void transfer(TransferDto transferDto) {
         resilience.execute(
                 () -> {
@@ -25,6 +26,7 @@ public class TransferClient {
                     log.warn("Fallback: transfer from {} to {} failed",
                             transferDto.getFromAccount(), transferDto.getToAccount());
                     return null;
-                });
+                }
+        );
     }
 }

@@ -5,34 +5,24 @@
  */
 package ru.yandex.practicum.bank.client.blocker.api;
 
-import ru.yandex.practicum.bank.client.blocker.model.CashCheckDto;
-import ru.yandex.practicum.bank.client.blocker.model.ResultCheckDto;
-import ru.yandex.practicum.bank.client.blocker.model.TransferCheckDto;
-import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.multipart.MultipartFile;
-
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import jakarta.annotation.Generated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.yandex.practicum.bank.client.blocker.model.CashCheckDto;
+import ru.yandex.practicum.bank.client.blocker.model.ResultCheckDto;
+import ru.yandex.practicum.bank.client.blocker.model.TransferCheckDto;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-06-14T22:59:57.291682+03:00[Europe/Moscow]", comments = "Generator version: 7.12.0")
 @Validated
@@ -42,42 +32,64 @@ public interface BlockerApi {
     /**
      * POST /cash : Проверка операции пополнения
      *
-     * @param cashCheckDto (required)
+     * @param cashCheckDto  (required)
      * @return Результат проверки (status code 200)
      */
-    @Operation(operationId = "checkCash", summary = "Проверка операции пополнения", tags = { "blocker" }, responses = {
+    @Operation(
+        operationId = "checkCash",
+        summary = "Проверка операции пополнения",
+        tags = { "blocker" },
+        responses = {
             @ApiResponse(responseCode = "200", description = "Результат проверки", content = {
-                    @Content(mediaType = "application/json", schema = @Schema(implementation = ResultCheckDto.class))
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ResultCheckDto.class))
             })
-    }, security = {
+        },
+        security = {
             @SecurityRequirement(name = "bearerAuth")
-    })
-    @RequestMapping(method = RequestMethod.POST, value = "/cash", produces = {
-            "application/json" }, consumes = "application/json")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/cash",
+        produces = { "application/json" },
+        consumes = "application/json"
+    )
     @ResponseStatus(HttpStatus.OK)
-
+    
     ResultCheckDto checkCash(
-            @Parameter(name = "CashCheckDto", description = "", required = true) @Valid @RequestBody CashCheckDto cashCheckDto);
+        @Parameter(name = "CashCheckDto", description = "", required = true) @Valid @RequestBody CashCheckDto cashCheckDto
+    );
+
 
     /**
      * POST /transfer : Проверка операции перевода
      *
-     * @param transferCheckDto (required)
+     * @param transferCheckDto  (required)
      * @return Результат проверки (status code 200)
      */
-    @Operation(operationId = "checkTransfer", summary = "Проверка операции перевода", tags = {
-            "blocker" }, responses = {
-                    @ApiResponse(responseCode = "200", description = "Результат проверки", content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = ResultCheckDto.class))
-                    })
-            }, security = {
-                    @SecurityRequirement(name = "bearerAuth")
+    @Operation(
+        operationId = "checkTransfer",
+        summary = "Проверка операции перевода",
+        tags = { "blocker" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Результат проверки", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ResultCheckDto.class))
             })
-    @RequestMapping(method = RequestMethod.POST, value = "/transfer", produces = {
-            "application/json" }, consumes = "application/json")
+        },
+        security = {
+            @SecurityRequirement(name = "bearerAuth")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/transfer",
+        produces = { "application/json" },
+        consumes = "application/json"
+    )
     @ResponseStatus(HttpStatus.OK)
-
+    
     ResultCheckDto checkTransfer(
-            @Parameter(name = "TransferCheckDto", description = "", required = true) @Valid @RequestBody TransferCheckDto transferCheckDto);
+        @Parameter(name = "TransferCheckDto", description = "", required = true) @Valid @RequestBody TransferCheckDto transferCheckDto
+    );
 
 }

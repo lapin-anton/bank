@@ -1,39 +1,53 @@
 #!/bin/bash
 
-set -e
+function load_env_and_run() {
+  local env_file=$1
+  shift
+  echo "Loading env from: $env_file"
 
-# shellcheck disable=SC2046
-export $(grep -v '^#' .env | xargs)
+  if [ ! -f "$env_file" ]; then
+    echo "File not found: $env_file"
+    exit 1
+  fi
 
-./gradlew services:notification:verifierStubsJar
-./gradlew services:notification:publishStubsPublicationToMavenLocal
-./gradlew services:notification:contractTest
+  set -a
+  # shellcheck source=/dev/null
+  source "$env_file"
+  set +a
 
-./gradlew services:account:verifierStubsJar
-./gradlew services:account:publishStubsPublicationToMavenLocal
-./gradlew services:account:contractTest
+  echo "Env loaded. Running Gradle tasks..."
+  "$@"
+}
 
-./gradlew services:blocker:verifierStubsJar
-./gradlew services:blocker:publishStubsPublicationToMavenLocal
-./gradlew services:blocker:contractTest
+load_env_and_run services/notification/.env ./gradlew services:notification:verifierStubsJar
+load_env_and_run services/notification/.env ./gradlew services:notification:publishStubsPublicationToMavenLocal
+load_env_and_run services/notification/.env ./gradlew services:notification:contractTest
 
-./gradlew services:cash:verifierStubsJar
-./gradlew services:cash:publishStubsPublicationToMavenLocal
-./gradlew services:cash:contractTest
+load_env_and_run services/account/.env ./gradlew services:account:verifierStubsJar
+load_env_and_run services/account/.env ./gradlew services:account:publishStubsPublicationToMavenLocal
+load_env_and_run services/account/.env ./gradlew services:account:contractTest
 
-./gradlew services:exchange:verifierStubsJar
-./gradlew services:exchange:publishStubsPublicationToMavenLocal
-./gradlew services:exchange:contractTest
+load_env_and_run services/blocker/.env ./gradlew services:blocker:verifierStubsJar
+load_env_and_run services/blocker/.env ./gradlew services:blocker:publishStubsPublicationToMavenLocal
+load_env_and_run services/blocker/.env ./gradlew services:blocker:contractTest
 
-./gradlew services:transfer:verifierStubsJar
-./gradlew services:transfer:publishStubsPublicationToMavenLocal
-./gradlew services:transfer:contractTest
+load_env_and_run services/cash/.env ./gradlew services:cash:verifierStubsJar
+load_env_and_run services/cash/.env ./gradlew services:cash:publishStubsPublicationToMavenLocal
+load_env_and_run services/cash/.env ./gradlew services:cash:contractTest
 
-./gradlew services:account:test
-./gradlew services:blocker:test
-./gradlew services:cash:test
-./gradlew services:exchange:test
-./gradlew services:exchange-generator:test
-./gradlew services:front-ui:test
-./gradlew services:notification:test
-./gradlew services:transfer:test
+load_env_and_run services/exchange/.env ./gradlew services:exchange:verifierStubsJar
+load_env_and_run services/exchange/.env ./gradlew services:exchange:publishStubsPublicationToMavenLocal
+load_env_and_run services/exchange/.env ./gradlew services:exchange:contractTest
+
+load_env_and_run services/transfer/.env ./gradlew services:transfer:verifierStubsJar
+load_env_and_run services/transfer/.env ./gradlew services:transfer:publishStubsPublicationToMavenLocal
+load_env_and_run services/transfer/.env ./gradlew services:transfer:contractTest
+
+load_env_and_run services/account/.env ./gradlew services:account:test
+load_env_and_run services/blocker/.env ./gradlew services:blocker:test
+load_env_and_run services/cash/.env ./gradlew services:cash:test
+load_env_and_run services/exchange/.env ./gradlew services:exchange:test
+load_env_and_run services/exchange-generator/.env ./gradlew services:exchange-generator:test
+load_env_and_run services/front-ui/.env ./gradlew services:front-ui:test
+load_env_and_run services/notification/.env ./gradlew services:notification:test
+load_env_and_run services/transfer/.env ./gradlew services:transfer:test

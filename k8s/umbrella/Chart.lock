@@ -29,5 +29,8 @@ dependencies:
 - name: postgres
   repository: file://../charts/postgres
   version: 0.1.0
-digest: sha256:bef41bf77efe614a7d0c951267dabad04b28522b6f7745f0b18f85ca2a1f3860
-generated: "2025-07-04T10:52:30.093893+03:00"
+- name: kafka
+  repository: https://helm-charts.itboon.top/bitnami
+  version: 32.3.1
+digest: sha256:454d4064e67fbe8a14a76c50f95ca14a0f6c41bb2063579636261da2cbfaf27f
+generated: "2025-07-08T16:42:02.469492+03:00"

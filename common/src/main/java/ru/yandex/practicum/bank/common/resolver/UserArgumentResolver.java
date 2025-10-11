@@ -28,8 +28,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -48,6 +47,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
         if (authentication.getPrincipal() instanceof DefaultOidcUser principal) {
             return mapToUser(principal.getAttributes());
         }
+
 
         return null;
     }

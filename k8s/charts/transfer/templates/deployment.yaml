@@ -58,3 +58,8 @@ spec:
                 configMapKeyRef:
                   name: transfer-config
                   key: SERVER_PORT
+            - name: SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: transfer-config
+                  key: SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS

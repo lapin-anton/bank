@@ -33,6 +33,11 @@ spec:
                 configMapKeyRef:
                   name: exchange-generator-config
                   key: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN_URL
+            - name: SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: exchange-generator-config
+                  key: SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS
             - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URL
               valueFrom:
                 configMapKeyRef:

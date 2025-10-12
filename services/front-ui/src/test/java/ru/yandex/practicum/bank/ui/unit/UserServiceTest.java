@@ -4,8 +4,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
-import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.admin.client.resource.UserResource;
+import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,28 +23,25 @@ import ru.yandex.practicum.bank.ui.service.impl.UserServiceImpl;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.argThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig(classes = UserServiceTest.Config.class)
 class UserServiceTest {
 
     @Configuration
     static class Config {
-        @Bean
-        Keycloak keycloak() {
-            return mock(Keycloak.class);
-        }
-
-        @Bean
-        KeycloakAdminProperty keycloakAdminProperty() {
+        @Bean Keycloak keycloak() { return mock(Keycloak.class); }
+        @Bean KeycloakAdminProperty keycloakAdminProperty() {
             KeycloakAdminProperty prop = new KeycloakAdminProperty();
             prop.setRealm("test-realm");
             return prop;
         }
-
-        @Bean
-        UserService userService(Keycloak keycloak, KeycloakAdminProperty keycloakAdminProperty) {
+        @Bean UserService userService(Keycloak keycloak, KeycloakAdminProperty keycloakAdminProperty) {
             return new UserServiceImpl(keycloak, keycloakAdminProperty);
         }
     }
@@ -106,9 +103,11 @@ class UserServiceTest {
 
         userService.password(user, dto);
 
-        verify(userResource).resetPassword(argThat(cred -> cred.getType().equals(CredentialRepresentation.PASSWORD) &&
-                cred.getValue().equals("secure123") &&
-                !cred.isTemporary()));
+        verify(userResource).resetPassword(argThat(cred ->
+                cred.getType().equals(CredentialRepresentation.PASSWORD) &&
+                        cred.getValue().equals("secure123") &&
+                        !cred.isTemporary()
+        ));
     }
 
     @Test

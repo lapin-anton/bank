@@ -9,7 +9,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 class HomeControllerTest extends AbstractIntegrationTest {
 
@@ -26,8 +28,9 @@ class HomeControllerTest extends AbstractIntegrationTest {
 
         Mockito.when(accountClient.getCurrentUserAccounts()).thenReturn(List.of(account));
 
+
         mockMvc.perform(get("/")
-                .with(mockOAuth2User()))
+                        .with(mockOAuth2User()))
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"))
                 .andExpect(model().attributeExists("user"))

@@ -13,7 +13,10 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureStubRunner(ids = "ru.yandex.practicum.bank:cash-stubs:+:stubs:8083", stubsMode = StubRunnerProperties.StubsMode.LOCAL)
+@AutoConfigureStubRunner(
+        ids = "ru.yandex.practicum.bank:cash-stubs:+:stubs:8083",
+        stubsMode = StubRunnerProperties.StubsMode.LOCAL
+)
 class CashApiContractTest {
 
     @Autowired

@@ -37,3 +37,4 @@ api:
   account: ${API_ACCOUNT:http://localhost:8080/api/account}
   cash: ${API_CASH:http://localhost:8080/api/cash}
   transfer: ${API_TRANSFER:http://localhost:8080/api/transfer}
+  exchange: ${API_EXCHANGE:http://localhost:8080/api/exchange}

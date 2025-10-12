@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
+import ru.yandex.practicum.bank.common.annotation.CurrentUser;
+import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.ui.config.KeycloakAdminProperty;
 import ru.yandex.practicum.bank.ui.dto.PasswordUserFormDto;
 import ru.yandex.practicum.bank.ui.dto.UserFormDto;
 import ru.yandex.practicum.bank.ui.service.UserService;
-import ru.yandex.practicum.bank.common.annotation.CurrentUser;
-import ru.yandex.practicum.bank.common.model.User;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,8 +35,7 @@ public class UserController {
     private final KeycloakAdminProperty keycloakAdminProperty;
 
     @PostMapping("/edit")
-    public String edit(@CurrentUser User user, @Valid @ModelAttribute("userFrom") UserFormDto userFormDto,
-            BindingResult result, Model model) {
+    public String edit(@CurrentUser User user, @Valid @ModelAttribute("userFrom") UserFormDto userFormDto, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             model.addAttribute("formErrors", result.getAllErrors());
@@ -50,9 +49,7 @@ public class UserController {
     }
 
     @PostMapping("/password")
-    public String edit(@CurrentUser User user,
-            @Valid @ModelAttribute("passwordFrom") PasswordUserFormDto passwordUserFormDto, BindingResult result,
-            Model model) {
+    public String edit(@CurrentUser User user, @Valid @ModelAttribute("passwordFrom") PasswordUserFormDto passwordUserFormDto, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
             model.addAttribute("formErrors", result.getAllErrors());
@@ -83,8 +80,8 @@ public class UserController {
      */
     @GetMapping("/logout")
     public ResponseEntity<Void> logout(HttpServletRequest request,
-            HttpServletResponse response,
-            OAuth2AuthenticationToken authToken) {
+                                       HttpServletResponse response,
+                                       OAuth2AuthenticationToken authToken) {
         OidcUser oidcUser = (OidcUser) authToken.getPrincipal();
         String idToken = oidcUser.getIdToken().getTokenValue();
 
@@ -93,8 +90,7 @@ public class UserController {
         String redirect = "%s://%s:%s".formatted(request.getScheme(), request.getServerName(), request.getServerPort());
 
         String logoutUri = UriComponentsBuilder
-                .fromUriString("%s/realms/%s/protocol/openid-connect/logout"
-                        .formatted(keycloakAdminProperty.getServerUrl(), keycloakAdminProperty.getRealm()))
+                .fromUriString("%s/realms/%s/protocol/openid-connect/logout".formatted(keycloakAdminProperty.getServerUrl(), keycloakAdminProperty.getRealm()))
                 .queryParam("post_logout_redirect_uri", redirect)
                 .queryParam("id_token_hint", idToken)
                 .build()

@@ -222,14 +222,15 @@
             </table>
         </form>
     </td></tr>
-    <tr><td style="padding:2px;" id="exchange_rates">
+    <tr><td style="padding:2px;" id="exchange_rates" th:attr="data-api-url=${apiExchange}">
     </td></tr>
 </table>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         setInterval(() => {
             let td = document.getElementById('exchange_rates');
-            fetch('http://localhost:8080/api/exchange/rates')
+            const apiExchangeUrl = td.getAttribute('data-api-url');
+            fetch(apiExchangeUrl + '/rates')
                 .then(response => response.json())
                 .then(json => {
                     let table = '<table style="width:100%;margin-left:auto;margin-right:auto;border-radius:2%;padding:10px;background-color:whitesmoke;">';

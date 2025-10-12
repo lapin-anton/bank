@@ -11,7 +11,10 @@ import ru.yandex.practicum.bank.client.notification.model.MailDto;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureStubRunner(ids = "ru.yandex.practicum.bank:notification-stubs:+:stubs:8080", stubsMode = StubRunnerProperties.StubsMode.LOCAL)
+@AutoConfigureStubRunner(
+        ids = "ru.yandex.practicum.bank:notification-stubs:+:stubs:8080",
+        stubsMode = StubRunnerProperties.StubsMode.LOCAL
+)
 class NotificationApiContractTest {
 
     @Autowired
@@ -27,3 +30,4 @@ class NotificationApiContractTest {
         assertDoesNotThrow(() -> notificationClient.sendMail(dto));
     }
 }
+

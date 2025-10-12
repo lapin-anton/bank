@@ -28,6 +28,11 @@ spec:
                 configMapKeyRef:
                   name: cash-config
                   key: SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI
+            - name: SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: cash-config
+                  key: SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS
             - name: API_ACCOUNT
               valueFrom:
                 configMapKeyRef:

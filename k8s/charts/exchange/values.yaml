@@ -20,5 +20,6 @@ secrets:
 configMap:
   datasourceUrl: "jdbc:postgresql://postgres:5432/exchange"
   jwtIssuerUri: ""
+  kafkaBootstrapServers: ""
 
 resources: {}

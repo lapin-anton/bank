@@ -18,13 +18,15 @@ public class BlockerClient {
     public ResultCheckDto checkCash(CashCheckDto dto) {
         return resilience.execute(
                 () -> blockerApi.checkCash(dto),
-                this::defaultResult);
+                this::defaultResult
+        );
     }
 
     public ResultCheckDto checkTransfer(TransferCheckDto dto) {
         return resilience.execute(
                 () -> blockerApi.checkTransfer(dto),
-                this::defaultResult);
+                this::defaultResult
+        );
     }
 
     private ResultCheckDto defaultResult() {

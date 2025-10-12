@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@Import({ JwtTestConfig.class, MockMailConfig.class })
+@Import({JwtTestConfig.class, MockMailConfig.class})
 class MailControllerTest {
 
     @Autowired
@@ -49,9 +49,9 @@ class MailControllerTest {
         doNothing().when(mailSender).send(any(SimpleMailMessage.class));
 
         mockMvc.perform(post("/mail")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(mailDto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(mailDto)))
                 .andExpect(status().isOk());
 
         Mockito.verify(mailSender, Mockito.times(1)).send(any(SimpleMailMessage.class));

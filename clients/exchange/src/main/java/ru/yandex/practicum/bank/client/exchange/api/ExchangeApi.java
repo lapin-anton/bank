@@ -5,35 +5,28 @@
  */
 package ru.yandex.practicum.bank.client.exchange.api;
 
-import ru.yandex.practicum.bank.client.exchange.model.ConvertRequestDto;
-import ru.yandex.practicum.bank.client.exchange.model.ConvertResponseDto;
-import ru.yandex.practicum.bank.client.exchange.model.RateDto;
-import ru.yandex.practicum.bank.client.exchange.model.UpdateExchangeRate200Response;
-import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.NativeWebRequest;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import ru.yandex.practicum.bank.client.exchange.model.ConvertRequestDto;
+import ru.yandex.practicum.bank.client.exchange.model.ConvertResponseDto;
+import ru.yandex.practicum.bank.client.exchange.model.RateDto;
+import ru.yandex.practicum.bank.client.exchange.model.UpdateExchangeRate200Response;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2025-06-14T15:20:30.433277+03:00[Europe/Moscow]", comments = "Generator version: 7.12.0")
 @Validated
@@ -43,23 +36,34 @@ public interface ExchangeApi {
     /**
      * POST /convert : Конвертировать из одной валюты в другую
      *
-     * @param convertRequestDto (required)
+     * @param convertRequestDto  (required)
      * @return Результат конверсии (status code 200)
      */
-    @Operation(operationId = "convertCurrency", summary = "Конвертировать из одной валюты в другую", tags = {
-            "Exchange" }, responses = {
-                    @ApiResponse(responseCode = "200", description = "Результат конверсии", content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = ConvertResponseDto.class))
-                    })
-            }, security = {
-                    @SecurityRequirement(name = "bearerAuth")
+    @Operation(
+        operationId = "convertCurrency",
+        summary = "Конвертировать из одной валюты в другую",
+        tags = { "Exchange" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Результат конверсии", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ConvertResponseDto.class))
             })
-    @RequestMapping(method = RequestMethod.POST, value = "/convert", produces = {
-            "application/json" }, consumes = "application/json")
+        },
+        security = {
+            @SecurityRequirement(name = "bearerAuth")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/convert",
+        produces = { "application/json" },
+        consumes = "application/json"
+    )
     @ResponseStatus(HttpStatus.OK)
-
+    
     ConvertResponseDto convertCurrency(
-            @Parameter(name = "ConvertRequestDto", description = "", required = true) @Valid @RequestBody ConvertRequestDto convertRequestDto);
+        @Parameter(name = "ConvertRequestDto", description = "", required = true) @Valid @RequestBody ConvertRequestDto convertRequestDto
+    );
+
 
     /**
      * GET /rates : Посмотреть все курсы обмена
@@ -67,38 +71,58 @@ public interface ExchangeApi {
      *
      * @return Список курсов (status code 200)
      */
-    @Operation(operationId = "getExchangeRates", summary = "Посмотреть все курсы обмена", description = "Не требуется авторизация", tags = {
-            "Exchange" }, responses = {
-                    @ApiResponse(responseCode = "200", description = "Список курсов", content = {
-                            @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = RateDto.class)))
-                    })
+    @Operation(
+        operationId = "getExchangeRates",
+        summary = "Посмотреть все курсы обмена",
+        description = "Не требуется авторизация",
+        tags = { "Exchange" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Список курсов", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = RateDto.class)))
             })
-    @RequestMapping(method = RequestMethod.GET, value = "/rates", produces = { "application/json" })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/rates",
+        produces = { "application/json" }
+    )
     @ResponseStatus(HttpStatus.OK)
-
+    
     List<RateDto> getExchangeRates(
-
+        
     );
+
 
     /**
      * POST /accept : Добавить/обновить курс обмена
      *
-     * @param rateDto (required)
+     * @param rateDto  (required)
      * @return Курс сохранен (status code 200)
      */
-    @Operation(operationId = "updateExchangeRate", summary = "Добавить/обновить курс обмена", tags = {
-            "Exchange" }, responses = {
-                    @ApiResponse(responseCode = "200", description = "Курс сохранен", content = {
-                            @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateExchangeRate200Response.class))
-                    })
-            }, security = {
-                    @SecurityRequirement(name = "bearerAuth")
+    @Operation(
+        operationId = "updateExchangeRate",
+        summary = "Добавить/обновить курс обмена",
+        tags = { "Exchange" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Курс сохранен", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateExchangeRate200Response.class))
             })
-    @RequestMapping(method = RequestMethod.POST, value = "/accept", produces = {
-            "application/json" }, consumes = "application/json")
+        },
+        security = {
+            @SecurityRequirement(name = "bearerAuth")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/accept",
+        produces = { "application/json" },
+        consumes = "application/json"
+    )
     @ResponseStatus(HttpStatus.OK)
-
+    
     UpdateExchangeRate200Response updateExchangeRate(
-            @Parameter(name = "RateDto", description = "", required = true) @Valid @RequestBody RateDto rateDto);
+        @Parameter(name = "RateDto", description = "", required = true) @Valid @RequestBody RateDto rateDto
+    );
 
 }

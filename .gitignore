@@ -33,10 +33,6 @@ out/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
-.vscode/
-/.env
-
 ### k8s ###
 /k8s/charts/postgres/secret-values-dev.yaml
 /k8s/charts/postgres/secret-values-prod.yaml
@@ -51,4 +47,15 @@ out/
 /k8s/umbrella/secret-values-dev.yaml
 /k8s/umbrella/secret-values-test.yaml
 /k8s/umbrella/secret-values-prod.yaml
+
+### env ###
+/.env
 /jenkins/.env
+/services/exchange/.env
+/services/exchange-generator/.env
+/services/notification/.env
+/services/blocker/.env
+/services/account/.env
+/services/cash/.env
+/services/transfer/.env
+/services/front-ui/.env

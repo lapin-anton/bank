@@ -24,6 +24,7 @@ public class NotificationClient {
                 () -> {
                     log.warn("Fallback: failed to send mail to {}", mailDto.getEmail());
                     return null;
-                });
+                }
+        );
     }
 }

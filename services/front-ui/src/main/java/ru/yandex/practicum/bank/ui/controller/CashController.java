@@ -19,9 +19,8 @@ public class CashController {
     private final CashClient cashClient;
 
     @PostMapping("/put")
-    public String putCash(@Valid @ModelAttribute("cashTransaction") CashTransactionDto cashTransactionDto,
-            BindingResult result,
-            Model model) {
+    public String putCash(@Valid @ModelAttribute("cashTransaction") CashTransactionDto cashTransactionDto, BindingResult result,
+                          Model model) {
         if (result.hasErrors()) {
             model.addAttribute("formErrors", result.getAllErrors());
 
@@ -34,9 +33,8 @@ public class CashController {
     }
 
     @PostMapping("/withdraw")
-    public String withdrawCash(@Valid @ModelAttribute("cashTransaction") CashTransactionDto cashTransactionDto,
-            BindingResult result,
-            Model model) {
+    public String withdrawCash(@Valid @ModelAttribute("cashTransaction") CashTransactionDto cashTransactionDto, BindingResult result,
+                               Model model) {
         if (result.hasErrors()) {
             model.addAttribute("formErrors", result.getAllErrors());
 

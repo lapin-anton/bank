@@ -1,12 +1,17 @@
 package ru.yandex.practicum.bank.service.account.integration;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import ru.yandex.practicum.bank.service.account.dto.OpenAccountDto;
 import ru.yandex.practicum.bank.service.account.model.Currency;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class UserAccountControllerTest extends AbstractIntegrationTest {
 
@@ -30,7 +35,7 @@ class UserAccountControllerTest extends AbstractIntegrationTest {
     @Test
     void getAccounts_ShouldReturnUserAccounts() throws Exception {
         mockMvc.perform(get("/user")
-                .header(AUTH_HEADER, BEARER_TOKEN))
+                        .header(AUTH_HEADER, BEARER_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].userId").value(userId));
     }
@@ -38,7 +43,7 @@ class UserAccountControllerTest extends AbstractIntegrationTest {
     @Test
     void getAccountsById_ShouldReturnAccountsForOtherUser() throws Exception {
         mockMvc.perform(get("/user/" + userId)
-                .header(AUTH_HEADER, BEARER_TOKEN))
+                        .header(AUTH_HEADER, BEARER_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].userId").value(userId));
     }
@@ -49,9 +54,9 @@ class UserAccountControllerTest extends AbstractIntegrationTest {
         dto.setCurrency(Currency.USD);
 
         mockMvc.perform(post("/user")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.userId").value(userId))
                 .andExpect(jsonPath("$.currency").value("USD"));
@@ -60,7 +65,7 @@ class UserAccountControllerTest extends AbstractIntegrationTest {
     @Test
     void deleteAccount_ShouldRemoveAccount() throws Exception {
         mockMvc.perform(delete("/user/1")
-                .header(AUTH_HEADER, BEARER_TOKEN))
+                        .header(AUTH_HEADER, BEARER_TOKEN))
                 .andExpect(status().isOk());
     }
 }

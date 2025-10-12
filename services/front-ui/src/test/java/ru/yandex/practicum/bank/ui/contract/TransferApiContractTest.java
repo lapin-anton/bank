@@ -13,7 +13,10 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureStubRunner(ids = "ru.yandex.practicum.bank:transfer-stubs:+:stubs:8084", stubsMode = StubRunnerProperties.StubsMode.LOCAL)
+@AutoConfigureStubRunner(
+        ids = "ru.yandex.practicum.bank:transfer-stubs:+:stubs:8084",
+        stubsMode = StubRunnerProperties.StubsMode.LOCAL
+)
 class TransferApiContractTest {
 
     @Autowired
@@ -29,3 +32,4 @@ class TransferApiContractTest {
         assertDoesNotThrow(() -> transferClient.transfer(dto));
     }
 }
+

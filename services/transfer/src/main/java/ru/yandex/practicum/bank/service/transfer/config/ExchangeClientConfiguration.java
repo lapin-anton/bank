@@ -11,8 +11,8 @@ public class ExchangeClientConfiguration {
 
     @Bean
     public ExchangeApi exchangeApiClient(Feign.Builder feignBuilder,
-            FeignSecurityConfig authConfig,
-            @Value("${api.exchange}") String baseUrl) {
+                                       FeignSecurityConfig authConfig,
+                                       @Value("${api.exchange}") String baseUrl) {
 
         return feignBuilder
                 .requestInterceptor(authConfig.jwtRelayInterceptor())

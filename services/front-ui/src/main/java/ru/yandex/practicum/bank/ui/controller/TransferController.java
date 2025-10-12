@@ -18,7 +18,7 @@ public class TransferController {
 
     @PostMapping("/transfer")
     public String transfer(@Valid @ModelAttribute("transfer") TransferDto transferDto, BindingResult result,
-            Model model) {
+                           Model model) {
         if (result.hasErrors()) {
             model.addAttribute("formErrors", result.getAllErrors());
 

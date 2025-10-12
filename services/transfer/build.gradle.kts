@@ -5,6 +5,7 @@ plugins {
 
 dependencies {
 
+    implementation("org.springframework.kafka:spring-kafka")
 
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0")
 
@@ -17,6 +18,8 @@ dependencies {
 
     testImplementation("org.springframework.cloud:spring-cloud-starter-contract-verifier")
     testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+    testImplementation("io.projectreactor:reactor-core:3.6.5")
 
     implementation(project(":common"))
     implementation(project(":clients:account"))

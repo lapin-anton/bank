@@ -36,8 +36,7 @@ public class FeignSecurityConfig {
                     return jwtAuth.getToken().getTokenValue();
                 }
 
-                log.warn("Authentication is not of type JwtAuthenticationToken: {}",
-                        authentication.getClass().getSimpleName());
+                log.warn("Authentication is not of type JwtAuthenticationToken: {}", authentication.getClass().getSimpleName());
                 return null;
             }
         };

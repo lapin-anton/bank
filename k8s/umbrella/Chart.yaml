@@ -35,3 +35,6 @@ dependencies:
   - name: postgres
     version: 0.1.0
     repository: "file://../charts/postgres"
+  - name: kafka
+    version: 32.3.1
+    repository: "https://helm-charts.itboon.top/bitnami"

@@ -1,19 +1,13 @@
 package ru.yandex.practicum.bank.client.blocker.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import java.math.BigDecimal;
-import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.*;
 import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * TransferCheckDto
@@ -48,10 +42,9 @@ public class TransferCheckDto {
 
   /**
    * Счёт списания
-   * 
    * @return fromAccount
    */
-  @NotNull
+  @NotNull 
   @Schema(name = "fromAccount", example = "40817810099910001111", description = "Счёт списания", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("fromAccount")
   public String getFromAccount() {
@@ -69,10 +62,9 @@ public class TransferCheckDto {
 
   /**
    * Счёт зачисления
-   * 
    * @return toAccount
    */
-  @NotNull
+  @NotNull 
   @Schema(name = "toAccount", example = "40817810099910002222", description = "Счёт зачисления", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("toAccount")
   public String getToAccount() {
@@ -90,11 +82,9 @@ public class TransferCheckDto {
 
   /**
    * Сумма перевода
-   * 
    * @return amount
    */
-  @NotNull
-  @Valid
+  @NotNull @Valid 
   @Schema(name = "amount", example = "1500.00", description = "Сумма перевода", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("amount")
   public BigDecimal getAmount() {
@@ -146,3 +136,4 @@ public class TransferCheckDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

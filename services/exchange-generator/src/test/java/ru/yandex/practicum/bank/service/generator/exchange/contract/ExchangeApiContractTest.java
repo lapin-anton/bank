@@ -18,7 +18,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureStubRunner(ids = "ru.yandex.practicum.bank:exchange-stubs:+:stubs:8081", stubsMode = StubRunnerProperties.StubsMode.LOCAL)
+@AutoConfigureStubRunner(
+        ids = "ru.yandex.practicum.bank:exchange-stubs:+:stubs:8081",
+        stubsMode = StubRunnerProperties.StubsMode.LOCAL
+)
 class ExchangeApiContractTest {
 
     @Autowired

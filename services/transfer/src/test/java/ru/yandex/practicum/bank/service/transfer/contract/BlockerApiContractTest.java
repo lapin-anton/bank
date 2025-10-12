@@ -15,7 +15,10 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureStubRunner(ids = "ru.yandex.practicum.bank:blocker-stubs:+:stubs:8082", stubsMode = StubRunnerProperties.StubsMode.LOCAL)
+@AutoConfigureStubRunner(
+        ids = "ru.yandex.practicum.bank:blocker-stubs:+:stubs:8082",
+        stubsMode = StubRunnerProperties.StubsMode.LOCAL
+)
 class BlockerApiContractTest {
 
     @Autowired

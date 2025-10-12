@@ -1,16 +1,15 @@
 
 dependencies {
-
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     implementation("org.keycloak:keycloak-admin-client:26.0.5")
 
     testImplementation("org.springframework.security:spring-security-test")
 
     testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
+    testImplementation("io.projectreactor:reactor-core:3.6.5")
 
     implementation(project(":common"))
     implementation(project(":clients:account"))

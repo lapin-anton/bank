@@ -11,8 +11,8 @@ public class NotificationClientConfiguration {
 
     @Bean
     public NotificationApi notificationApiClient(Feign.Builder feignBuilder,
-            FeignSecurityConfig authConfig,
-            @Value("${api.notification}") String baseUrl) {
+                                                 FeignSecurityConfig authConfig,
+                                                 @Value("${api.notification}") String baseUrl) {
 
         return feignBuilder
                 .requestInterceptor(authConfig.jwtRelayInterceptor())

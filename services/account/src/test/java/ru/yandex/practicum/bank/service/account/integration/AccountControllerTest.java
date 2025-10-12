@@ -1,13 +1,17 @@
 package ru.yandex.practicum.bank.service.account.integration;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import ru.yandex.practicum.bank.service.account.dto.ChangeBalanceDto;
 
 import java.math.BigDecimal;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class AccountControllerTest extends AbstractIntegrationTest {
 
@@ -29,7 +33,7 @@ class AccountControllerTest extends AbstractIntegrationTest {
     @Test
     void getAccount_ShouldReturnAccountDto() throws Exception {
         mockMvc.perform(get("/ACC-123")
-                .header(AUTH_HEADER, BEARER_TOKEN))
+                        .header(AUTH_HEADER, BEARER_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.number").value("ACC-123"))
                 .andExpect(jsonPath("$.currency").value("RUB"))
@@ -39,7 +43,7 @@ class AccountControllerTest extends AbstractIntegrationTest {
     @Test
     void blockAccount_ShouldReturnOk() throws Exception {
         mockMvc.perform(patch("/1/block")
-                .header(AUTH_HEADER, BEARER_TOKEN))
+                        .header(AUTH_HEADER, BEARER_TOKEN))
                 .andExpect(status().isOk());
     }
 
@@ -50,9 +54,9 @@ class AccountControllerTest extends AbstractIntegrationTest {
         dto.setVersion(0L);
 
         mockMvc.perform(patch("/1/balance")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk());
     }
 }

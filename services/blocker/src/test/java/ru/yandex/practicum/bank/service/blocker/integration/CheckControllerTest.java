@@ -1,7 +1,7 @@
 package ru.yandex.practicum.bank.service.blocker.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +16,8 @@ import ru.yandex.practicum.bank.service.blocker.dto.TransferCheckDto;
 import java.math.BigDecimal;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -38,9 +39,9 @@ class CheckControllerTest {
         CashCheckDto dto = new CashCheckDto("ACC-1", new BigDecimal("999999.99"));
 
         mockMvc.perform(post("/cash")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value(true));
     }
@@ -50,9 +51,9 @@ class CheckControllerTest {
         CashCheckDto dto = new CashCheckDto("ACC-1", new BigDecimal("1000000.01"));
 
         mockMvc.perform(post("/cash")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value(false));
     }
@@ -65,9 +66,9 @@ class CheckControllerTest {
         dto.setAmount(new BigDecimal("500000.00"));
 
         mockMvc.perform(post("/transfer")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value(true));
     }
@@ -80,9 +81,9 @@ class CheckControllerTest {
         dto.setAmount(new BigDecimal("1000000.01"));
 
         mockMvc.perform(post("/transfer")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.result").value(false));
     }
@@ -92,9 +93,9 @@ class CheckControllerTest {
         CashCheckDto dto = new CashCheckDto("", new BigDecimal("1000"));
 
         mockMvc.perform(post("/cash")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest());
     }
 
@@ -106,9 +107,9 @@ class CheckControllerTest {
         dto.setAmount(null);
 
         mockMvc.perform(post("/transfer")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isBadRequest());
     }
 }

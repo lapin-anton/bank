@@ -5,5 +5,6 @@ metadata:
 data:
   SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_TOKEN_URL: {{ .Values.configMap.keycloakTokenUrl | default .Values.global.keycloakTokenUrl | quote}}
   SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_KEYCLOAK_ISSUER_URL: {{ .Values.configMap.jwtIssuerUri | default .Values.global.jwtIssuerUri | quote}}
+  SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS: {{ .Values.configMap.kafkaBootstrapServers | default .Values.global.kafkaBootstrapServers | quote}}
   API_EXCHANGE: {{ .Values.configMap.api.exchange | default .Values.global.api.exchange | quote}}
   SERVER_PORT: {{ .Values.service.port | quote }}

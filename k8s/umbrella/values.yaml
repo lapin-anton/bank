@@ -2,6 +2,7 @@ global:
   jwtIssuerUri: "http://practicum-bank/realms/bank"
   keycloakTokenUrl: "http://practicum-bank/realms/bank/protocol/openid-connect/token"
   keycloakRedirectUrl: "http://practicum-bank/login/oauth2/code/{registrationId}"
+  kafkaBootstrapServers: "kafka.kafka:9092"
   api:
     account: "http://practicum-bank/api/account"
     cash: "http://practicum-bank/api/cash"
@@ -9,3 +10,54 @@ global:
     notification: "http://practicum-bank/api/notification"
     exchange: "http://practicum-bank/api/exchange"
     transfer: "http://practicum-bank/api/transfer"
+
+kafka:
+
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 250m
+    limits:
+      memory: 1Gi
+      cpu: 500m
+
+  kraft:
+    enabled: true
+  clusterId: 4VpqWRbeQmqU9S1YxpZ4SQ
+
+  replicaCount: 2
+
+  controller:
+    replicaCount: 1
+
+  listeners:
+    client:
+      protocol: PLAINTEXT
+
+  persistence:
+    enabled: true
+    size: 8Gi
+
+  auth:
+    enabled: false
+
+  autoCreateTopicsEnable: false
+
+  externalAccess:
+    enabled: false
+
+  provisioning:
+    enabled: true
+    topics:
+      - name: rate
+        partitions: 2
+        replicationFactor: 2
+        config:
+          retention.ms: 604800000
+          cleanup.policy: delete
+      - name: mail
+        partitions: 2
+        replicationFactor: 2
+        config:
+          retention.ms: 259200000
+          cleanup.policy: delete

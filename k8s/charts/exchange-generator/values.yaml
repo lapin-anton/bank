@@ -16,6 +16,7 @@ secrets:
 
 configMap:
   jwtIssuerUri: ""
+  kafkaBootstrapServers: ""
   keycloakTokenUrl: ""
   api:
     exchange: ""

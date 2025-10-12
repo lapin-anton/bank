@@ -44,7 +44,7 @@ subprojects {
 
     dependencies {
         implementation("org.springframework.boot:spring-boot-starter-actuator")
-        implementation("org.springframework.cloud:spring-cloud-starter-consul-discovery")
+        implementation("org.springframework.boot:spring-boot-starter-validation")
 
         compileOnly("org.projectlombok:lombok")
         developmentOnly("org.springframework.boot:spring-boot-devtools")

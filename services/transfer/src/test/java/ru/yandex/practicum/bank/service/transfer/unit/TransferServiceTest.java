@@ -31,23 +31,10 @@ class TransferServiceTest {
 
     @Configuration
     static class Config {
-        @Bean
-        AccountClient accountClient() {
-            return mock(AccountClient.class);
-        }
-
-        @Bean
-        ExchangeClient exchangeClient() {
-            return mock(ExchangeClient.class);
-        }
-
-        @Bean
-        BlockerClient blockerClient() {
-            return mock(BlockerClient.class);
-        }
-
-        @Bean
-        TransferService transferService(AccountClient ac, ExchangeClient ec, BlockerClient bc) {
+        @Bean AccountClient accountClient() { return mock(AccountClient.class); }
+        @Bean ExchangeClient exchangeClient() { return mock(ExchangeClient.class); }
+        @Bean BlockerClient blockerClient() { return mock(BlockerClient.class); }
+        @Bean TransferService transferService(AccountClient ac, ExchangeClient ec, BlockerClient bc) {
             return new TransferServiceImpl(ac, ec, bc);
         }
     }
@@ -108,13 +95,15 @@ class TransferServiceTest {
     void transfer_ShouldTransferMoneyCorrectly() {
         transferService.transfer(dto, user);
 
-        verify(accountClient).changeBalance(eq(1L),
-                argThat(change -> change.getAmount().compareTo(BigDecimal.valueOf(400)) == 0 &&
-                        Objects.equals(change.getVersion(), 1L)));
+        verify(accountClient).changeBalance(eq(1L), argThat(change ->
+                change.getAmount().compareTo(BigDecimal.valueOf(400)) == 0 &&
+                        Objects.equals(change.getVersion(), 1L)
+        ));
 
-        verify(accountClient).changeBalance(eq(2L),
-                argThat(change -> change.getAmount().compareTo(BigDecimal.valueOf(300)) == 0 &&
-                        Objects.equals(change.getVersion(), 2L)));
+        verify(accountClient).changeBalance(eq(2L), argThat(change ->
+                change.getAmount().compareTo(BigDecimal.valueOf(300)) == 0 &&
+                        Objects.equals(change.getVersion(), 2L)
+        ));
     }
 
     @Test
@@ -156,8 +145,9 @@ class TransferServiceTest {
 
         assertThrows(RuntimeException.class, () -> transferService.transfer(dto, user));
 
-        verify(accountClient).changeBalance(eq(1L),
-                argThat(change -> change.getAmount().compareTo(BigDecimal.valueOf(500)) == 0 &&
-                        Objects.equals(change.getVersion(), 2L)));
+        verify(accountClient).changeBalance(eq(1L), argThat(change ->
+                change.getAmount().compareTo(BigDecimal.valueOf(500)) == 0 &&
+                        Objects.equals(change.getVersion(), 2L)
+        ));
     }
 }

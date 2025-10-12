@@ -1,21 +1,13 @@
 package ru.yandex.practicum.bank.client.exchange.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import java.math.BigDecimal;
-import org.springframework.lang.Nullable;
-import ru.yandex.practicum.bank.client.exchange.model.Currency;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.*;
 import jakarta.annotation.Generated;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+
+import java.math.BigDecimal;
+import java.util.Objects;
 
 /**
  * ConvertRequestDto
@@ -50,11 +42,9 @@ public class ConvertRequestDto {
 
   /**
    * Get fromCurrency
-   * 
    * @return fromCurrency
    */
-  @NotNull
-  @Valid
+  @NotNull @Valid 
   @Schema(name = "fromCurrency", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("fromCurrency")
   public Currency getFromCurrency() {
@@ -72,11 +62,9 @@ public class ConvertRequestDto {
 
   /**
    * Get toCurrency
-   * 
    * @return toCurrency
    */
-  @NotNull
-  @Valid
+  @NotNull @Valid 
   @Schema(name = "toCurrency", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("toCurrency")
   public Currency getToCurrency() {
@@ -94,11 +82,9 @@ public class ConvertRequestDto {
 
   /**
    * Сумма для конвертации
-   * 
    * @return amount
    */
-  @NotNull
-  @Valid
+  @NotNull @Valid 
   @Schema(name = "amount", example = "5000.00", description = "Сумма для конвертации", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("amount")
   public BigDecimal getAmount() {
@@ -150,3 +136,4 @@ public class ConvertRequestDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

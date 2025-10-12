@@ -1,21 +1,23 @@
 package ru.yandex.practicum.bank.service.generator.exchange.scheduler;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import ru.yandex.practicum.bank.client.exchange.api.ExchangeClient;
 import ru.yandex.practicum.bank.client.exchange.model.Currency;
-import ru.yandex.practicum.bank.client.exchange.model.RateDto;
+import ru.yandex.practicum.bank.common.config.KafkaConfig;
+import ru.yandex.practicum.bank.common.message.Rate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Random;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
 public class GeneratorExchangeScheduler {
 
-    private final ExchangeClient exchangeClient;
+    private final KafkaTemplate<String, Rate> orderKafkaTemplate;
 
     private final Random random = new Random();
 
@@ -23,11 +25,13 @@ public class GeneratorExchangeScheduler {
     public void run() {
         for (Currency currency : Currency.values()) {
 
-            RateDto rateDto = new RateDto();
-            rateDto.setCurrency(currency);
-            rateDto.setValue(generateRandomRate(currency));
+            Rate rateMessage = Rate.builder()
+                    .id(UUID.randomUUID())
+                    .currency(currency.getValue())
+                    .value(generateRandomRate(currency))
+                    .build();
 
-            exchangeClient.updateExchangeRate(rateDto);
+            orderKafkaTemplate.send(KafkaConfig.RATE_TOPIC, rateMessage.getId().toString(), rateMessage);
         }
     }
 

@@ -30,7 +30,11 @@ public class CashServiceImpl implements CashService {
     private final BlockerClient blockerClient;
 
     @Override
-    @Retryable(include = { RuntimeException.class }, maxAttempts = 3, backoff = @Backoff(delay = 500))
+    @Retryable(
+            include = { RuntimeException.class },
+            maxAttempts = 3,
+            backoff = @Backoff(delay = 500)
+    )
     public void putCash(CashTransactionDto transactionDto, User user) {
 
         AccountDto accountDto = getAccountByNumber(transactionDto, user);
@@ -39,7 +43,8 @@ public class CashServiceImpl implements CashService {
 
         changeBalanceDto.setAmount(
                 transactionDto.getAmount()
-                        .add(accountDto.getBalance()));
+                        .add(accountDto.getBalance())
+        );
 
         changeBalanceDto.setVersion(accountDto.getVersion());
 
@@ -47,7 +52,11 @@ public class CashServiceImpl implements CashService {
     }
 
     @Override
-    @Retryable(include = { RuntimeException.class }, maxAttempts = 3, backoff = @Backoff(delay = 500))
+    @Retryable(
+            include = { RuntimeException.class },
+            maxAttempts = 3,
+            backoff = @Backoff(delay = 500)
+    )
     public void withdrawCash(CashTransactionDto transactionDto, User user) {
         AccountDto accountDto = getAccountByNumber(transactionDto, user);
 
@@ -70,7 +79,8 @@ public class CashServiceImpl implements CashService {
         log.error("Transfer permanently failed after retries: account={}, to={}, user={}",
                 transactionDto.getAccountNumber(),
                 ex.getMessage(),
-                user);
+                user
+        );
 
         throw new IllegalStateException("Transfer failed and was rolled back. Manual intervention required.", ex);
     }

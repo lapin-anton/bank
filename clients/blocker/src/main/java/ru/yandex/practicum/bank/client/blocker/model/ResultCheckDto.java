@@ -1,18 +1,11 @@
 package ru.yandex.practicum.bank.client.blocker.model;
 
-import java.net.URI;
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import org.springframework.lang.Nullable;
-import org.openapitools.jackson.nullable.JsonNullable;
-import java.time.OffsetDateTime;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.*;
 import jakarta.annotation.Generated;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.Objects;
 
 /**
  * ResultCheckDto
@@ -41,10 +34,9 @@ public class ResultCheckDto {
 
   /**
    * Результат проверки (true — операция разрешена)
-   * 
    * @return result
    */
-  @NotNull
+  @NotNull 
   @Schema(name = "result", example = "true", description = "Результат проверки (true — операция разрешена)", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("result")
   public Boolean getResult() {
@@ -92,3 +84,4 @@ public class ResultCheckDto {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

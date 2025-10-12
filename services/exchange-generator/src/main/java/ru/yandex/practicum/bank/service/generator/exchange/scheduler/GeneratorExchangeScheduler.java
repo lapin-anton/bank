@@ -6,7 +6,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.bank.client.exchange.model.Currency;
 import ru.yandex.practicum.bank.common.config.KafkaConfig;
-import ru.yandex.practicum.bank.common.massage.Rate;
+import ru.yandex.practicum.bank.common.message.Rate;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

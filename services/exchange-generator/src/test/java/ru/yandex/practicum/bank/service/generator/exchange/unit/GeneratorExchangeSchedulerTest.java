@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import ru.yandex.practicum.bank.client.exchange.model.Currency;
-import ru.yandex.practicum.bank.common.massage.Rate;
+import ru.yandex.practicum.bank.common.message.Rate;
 import ru.yandex.practicum.bank.service.generator.exchange.scheduler.GeneratorExchangeScheduler;
 
 import java.math.BigDecimal;
@@ -22,7 +22,8 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 
 @SpringJUnitConfig(classes = GeneratorExchangeSchedulerTest.Config.class)
-class GeneratorExchangeSchedulerTest {
+class
+GeneratorExchangeSchedulerTest {
 
     @Configuration
     static class Config {

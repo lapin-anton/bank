@@ -6,7 +6,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.bank.common.config.KafkaConfig;
-import ru.yandex.practicum.bank.common.massage.Rate;
+import ru.yandex.practicum.bank.common.message.Rate;
 import ru.yandex.practicum.bank.service.exchange.dto.ConvertRequestDto;
 import ru.yandex.practicum.bank.service.exchange.dto.ConvertResponseDto;
 import ru.yandex.practicum.bank.service.exchange.dto.RateDto;

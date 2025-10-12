@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.yandex.practicum.bank.service.account.dto.AccountDto;
 import ru.yandex.practicum.bank.common.exception.BadRequestException;
 import ru.yandex.practicum.bank.common.exception.NotFoundException;
 import ru.yandex.practicum.bank.common.model.User;
-import ru.yandex.practicum.bank.service.account.dto.OpenAccountDto;
+import ru.yandex.practicum.bank.service.account.dto.AccountDto;
 import ru.yandex.practicum.bank.service.account.mapper.AccountMapper;
 import ru.yandex.practicum.bank.service.account.model.Account;
 import ru.yandex.practicum.bank.service.account.model.AccountStatus;
@@ -43,8 +42,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto getAccount(String numberAccount) {
 
         Account account = accountRepository.getByNumber(numberAccount)
-                .orElseThrow(() -> new NotFoundException("Account not found by number: %s".formatted(numberAccount)));
-        ;
+                .orElseThrow(() -> new NotFoundException("Account not found by number: %s".formatted(numberAccount)));;
 
         return accountMapper.toDto(account);
     }

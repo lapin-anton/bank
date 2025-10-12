@@ -13,21 +13,19 @@ import ru.yandex.practicum.bank.service.account.service.impl.NumberAccountServic
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringJUnitConfig(classes = NumberAccountServiceTest.Config.class)
 class NumberAccountServiceTest {
 
     @Configuration
     static class Config {
-        @Bean
-        AccountRepository accountRepository() {
-            return mock(AccountRepository.class);
-        }
-
-        @Bean
-        NumberAccountService numberAccountService(AccountRepository accountRepository) {
+        @Bean AccountRepository accountRepository() { return mock(AccountRepository.class); }
+        @Bean NumberAccountService numberAccountService(AccountRepository accountRepository) {
             return new NumberAccountServiceImpl(accountRepository);
         }
     }

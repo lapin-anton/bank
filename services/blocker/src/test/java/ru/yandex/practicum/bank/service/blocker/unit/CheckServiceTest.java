@@ -13,15 +13,15 @@ import ru.yandex.practicum.bank.service.blocker.service.impl.CheckServiceImpl;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringJUnitConfig(classes = CheckServiceTest.Config.class)
 class CheckServiceTest {
 
     @Configuration
     static class Config {
-        @Bean
-        CheckService checkService() {
+        @Bean CheckService checkService() {
             return new CheckServiceImpl();
         }
     }

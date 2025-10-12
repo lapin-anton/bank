@@ -13,16 +13,19 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.context.WebApplicationContext;
 import ru.yandex.practicum.bank.service.blocker.BlockerServicePracticumBankApplication;
-import ru.yandex.practicum.bank.service.blocker.dto.*;
+import ru.yandex.practicum.bank.service.blocker.dto.CashCheckDto;
+import ru.yandex.practicum.bank.service.blocker.dto.ResultCheckDto;
+import ru.yandex.practicum.bank.service.blocker.dto.TransferCheckDto;
 import ru.yandex.practicum.bank.service.blocker.service.CheckService;
 
 import java.time.Instant;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = { BlockerServicePracticumBankApplication.class,
-        BaseContractTest.TestContractConfiguration.class })
+@SpringBootTest(classes = {BlockerServicePracticumBankApplication.class, BaseContractTest.TestContractConfiguration.class})
 @ActiveProfiles("test")
 public abstract class BaseContractTest {
 
@@ -45,8 +48,8 @@ public abstract class BaseContractTest {
                 .expiresAt(Instant.now().plusSeconds(3600))
                 .build();
 
-        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(jwt, jwt.getTokenValue(),
-                List.of());
+        UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(jwt, jwt.getTokenValue(), List.of());
 
         SecurityContextHolder.getContext().setAuthentication(auth);
     }

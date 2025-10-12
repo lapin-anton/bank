@@ -7,6 +7,5 @@ import ru.yandex.practicum.bank.service.blocker.dto.TransferCheckDto;
 public interface CheckService {
 
     ResultCheckDto check(CashCheckDto cashCheckDto);
-
     ResultCheckDto check(TransferCheckDto transferCheckDto);
 }

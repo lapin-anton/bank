@@ -5,7 +5,7 @@ plugins {
 
 dependencies {
 
-
+    implementation("org.springframework.kafka:spring-kafka")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.postgresql:postgresql")
@@ -20,6 +20,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
 
     testImplementation("org.springframework.cloud:spring-cloud-starter-contract-verifier")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+    testImplementation("io.projectreactor:reactor-core:3.6.5")
 
     implementation(project(":common"))
 }

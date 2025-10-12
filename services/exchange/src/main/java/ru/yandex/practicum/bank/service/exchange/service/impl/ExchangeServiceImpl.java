@@ -1,8 +1,12 @@
 package ru.yandex.practicum.bank.service.exchange.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.yandex.practicum.bank.common.config.KafkaConfig;
+import ru.yandex.practicum.bank.common.massage.Rate;
 import ru.yandex.practicum.bank.service.exchange.dto.ConvertRequestDto;
 import ru.yandex.practicum.bank.service.exchange.dto.ConvertResponseDto;
 import ru.yandex.practicum.bank.service.exchange.dto.RateDto;
@@ -56,6 +60,25 @@ public class ExchangeServiceImpl implements ExchangeService {
 
         exchangeRate.setCurrency(rateDto.getCurrency());
         exchangeRate.setValue(rateDto.getValue());
+
+        exchangeRateRepository.save(exchangeRate);
+    }
+
+    @Override
+    @Transactional
+    @KafkaListener(
+            groupId = KafkaConfig.RATE_GROPE,
+            topics = KafkaConfig.RATE_TOPIC
+    )
+    public void acceptRate(ConsumerRecord<String, Rate> rateConsumerRecord) {
+
+        Currency currency = Currency.valueOf(rateConsumerRecord.value().getCurrency());
+
+        ExchangeRate exchangeRate = exchangeRateRepository.findByCurrency(currency)
+                .orElse(new ExchangeRate());
+
+        exchangeRate.setCurrency(currency);
+        exchangeRate.setValue(rateConsumerRecord.value().getValue());
 
         exchangeRateRepository.save(exchangeRate);
     }

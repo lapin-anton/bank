@@ -22,13 +22,9 @@ class MailServiceTest {
 
     @Configuration
     static class Config {
-        @Bean
-        JavaMailSender javaMailSender() {
-            return mock(JavaMailSender.class);
-        }
+        @Bean JavaMailSender javaMailSender() { return mock(JavaMailSender.class); }
 
-        @Bean
-        MailService mailService(JavaMailSender javaMailSender) {
+        @Bean MailService mailService(JavaMailSender javaMailSender) {
             return new MailServiceImpl(javaMailSender);
         }
     }
@@ -54,8 +50,7 @@ class MailServiceTest {
         mailService.send(mailDto);
 
         verify(javaMailSender).send((SimpleMailMessage) argThat(message -> {
-            if (!(message instanceof SimpleMailMessage msg))
-                return false;
+            if (!(message instanceof SimpleMailMessage msg)) return false;
             return msg.getTo() != null &&
                     msg.getTo()[0].equals("test@domain.com") &&
                     msg.getSubject().equals("Hello") &&

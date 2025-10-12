@@ -11,8 +11,8 @@ public class AccountClientConfiguration {
 
     @Bean
     public AccountApi accountApiClient(Feign.Builder feignBuilder,
-            FeignSecurityConfig authConfig,
-            @Value("${api.account}") String baseUrl) {
+                                       FeignSecurityConfig authConfig,
+                                       @Value("${api.account}") String baseUrl) {
 
         return feignBuilder
                 .requestInterceptor(authConfig.jwtRelayInterceptor())

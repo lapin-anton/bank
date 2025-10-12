@@ -17,7 +17,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureStubRunner(ids = "ru.yandex.practicum.bank:account-stubs:+:stubs:8080", stubsMode = StubRunnerProperties.StubsMode.LOCAL)
+@AutoConfigureStubRunner(
+        ids = "ru.yandex.practicum.bank:account-stubs:+:stubs:8080",
+        stubsMode = StubRunnerProperties.StubsMode.LOCAL
+)
 class AccountApiContractTest {
 
     @Autowired

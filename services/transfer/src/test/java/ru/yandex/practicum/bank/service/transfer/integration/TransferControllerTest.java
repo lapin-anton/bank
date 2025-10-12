@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.kafka.test.context.EmbeddedKafka;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.yandex.practicum.bank.client.account.api.AccountClient;
@@ -22,6 +24,7 @@ import ru.yandex.practicum.bank.client.blocker.model.TransferCheckDto;
 import ru.yandex.practicum.bank.client.exchange.api.ExchangeClient;
 import ru.yandex.practicum.bank.client.exchange.model.ConvertRequestDto;
 import ru.yandex.practicum.bank.client.exchange.model.ConvertResponseDto;
+import ru.yandex.practicum.bank.common.config.KafkaConfig;
 import ru.yandex.practicum.bank.service.transfer.config.JwtTestConfig;
 import ru.yandex.practicum.bank.service.transfer.config.MockClientConfig;
 import ru.yandex.practicum.bank.service.transfer.dto.TransferDto;
@@ -36,19 +39,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@Import({ JwtTestConfig.class, MockClientConfig.class })
+@Import({JwtTestConfig.class, MockClientConfig.class})
+@EmbeddedKafka(partitions = 1, topics = {KafkaConfig.MAIL_TOPIC}, brokerProperties = {
+        "listeners=PLAINTEXT://localhost:9092",
+        "port=9092"
+})
+@DirtiesContext
 class TransferControllerTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
-    private AccountClient accountClient;
-    @Autowired
-    private ExchangeClient exchangeClient;
-    @Autowired
-    private BlockerClient blockerClient;
+    @Autowired private MockMvc mockMvc;
+    @Autowired private ObjectMapper objectMapper;
+    @Autowired private AccountClient accountClient;
+    @Autowired private ExchangeClient exchangeClient;
+    @Autowired private BlockerClient blockerClient;
 
     private static final String AUTH_HEADER = "Authorization";
     private static final String BEARER_TOKEN = "Bearer mock.jwt.token";
@@ -91,9 +94,9 @@ class TransferControllerTest {
         dto.setAmount(new BigDecimal("100.00"));
 
         mockMvc.perform(post("/")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk());
     }
 
@@ -109,9 +112,9 @@ class TransferControllerTest {
         dto.setAmount(new BigDecimal("100.00"));
 
         mockMvc.perform(post("/")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isInternalServerError());
     }
 }

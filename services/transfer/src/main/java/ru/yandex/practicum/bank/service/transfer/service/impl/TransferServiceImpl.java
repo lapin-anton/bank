@@ -33,7 +33,11 @@ public class TransferServiceImpl implements TransferService {
     private final BlockerClient blockerClient;
 
     @Override
-    @Retryable(include = { RuntimeException.class }, maxAttempts = 3, backoff = @Backoff(delay = 500))
+    @Retryable(
+            include = { RuntimeException.class },
+            maxAttempts = 3,
+            backoff = @Backoff(delay = 500)
+    )
     public void transfer(TransferDto transferDto, User user) {
 
         AccountDto accountFrom = accountClient.getAccountByNumber(transferDto.getFromAccount());
@@ -87,7 +91,8 @@ public class TransferServiceImpl implements TransferService {
                 transferDto.getFromAccount(),
                 transferDto.getToAccount(),
                 ex.getMessage(),
-                user);
+                user
+        );
 
         throw new IllegalStateException("Transfer failed and was rolled back. Manual intervention required.", ex);
     }
@@ -107,3 +112,5 @@ public class TransferServiceImpl implements TransferService {
         return resultCheckDto.getResult();
     }
 }
+
+

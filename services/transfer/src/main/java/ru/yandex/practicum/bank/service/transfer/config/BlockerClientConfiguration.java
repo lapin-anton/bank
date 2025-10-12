@@ -11,8 +11,8 @@ public class BlockerClientConfiguration {
 
     @Bean
     public BlockerApi blockerApiClient(Feign.Builder feignBuilder,
-            FeignSecurityConfig authConfig,
-            @Value("${api.blocker}") String baseUrl) {
+                                       FeignSecurityConfig authConfig,
+                                       @Value("${api.blocker}") String baseUrl) {
 
         return feignBuilder
                 .requestInterceptor(authConfig.jwtRelayInterceptor())

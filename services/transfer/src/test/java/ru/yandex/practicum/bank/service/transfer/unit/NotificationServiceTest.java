@@ -5,8 +5,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import ru.yandex.practicum.bank.client.notification.api.NotificationClient;
+import ru.yandex.practicum.bank.common.config.KafkaConfig;
+import ru.yandex.practicum.bank.common.massage.Mail;
 import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.service.transfer.dto.TransferDto;
 import ru.yandex.practicum.bank.service.transfer.service.NotificationService;
@@ -20,13 +22,13 @@ class NotificationServiceTest {
     @Configuration
     static class Config {
         @Bean
-        NotificationClient notificationClient() {
-            return mock(NotificationClient.class);
+        public KafkaTemplate<String, Mail> kafkaTemplate() {
+            return mock(KafkaTemplate.class);
         }
 
         @Bean
-        NotificationService notificationService(NotificationClient client) {
-            return new NotificationServiceImpl(client);
+        public NotificationService notificationService(KafkaTemplate<String, Mail> kafkaTemplate) {
+            return new NotificationServiceImpl(kafkaTemplate);
         }
     }
 
@@ -34,17 +36,17 @@ class NotificationServiceTest {
     private NotificationService notificationService;
 
     @Autowired
-    private NotificationClient notificationClient;
+    private KafkaTemplate<String, Mail> kafkaTemplate;
 
     @BeforeEach
     void setup() {
-        reset(notificationClient);
+        reset(kafkaTemplate);
     }
 
     @Test
     void notify_ShouldSendCorrectMail() {
         User user = new User();
-        user.setEmail("test@bank.com");
+        user.setEmail("user@example.com");
 
         TransferDto dto = new TransferDto();
         dto.setFromAccount("ACC-111");
@@ -52,8 +54,14 @@ class NotificationServiceTest {
 
         notificationService.notify(dto, user);
 
-        verify(notificationClient).sendMail(argThat(mail -> mail.getEmail().equals("test@bank.com") &&
-                mail.getSubject().equals("Перевод исполнен") &&
-                mail.getText().equals("Перевод с счета ACC-111 на счет ACC-222 исполнен")));
+        verify(kafkaTemplate).send(
+                eq(KafkaConfig.MAIL_TOPIC),
+                anyString(),
+                argThat(mail ->
+                        mail.getEmail().equals("user@example.com") &&
+                                mail.getSubject().equals("Перевод исполнен") &&
+                                mail.getText().equals("Перевод с счета ACC-111 на счет ACC-222 исполнен")
+                )
+        );
     }
 }

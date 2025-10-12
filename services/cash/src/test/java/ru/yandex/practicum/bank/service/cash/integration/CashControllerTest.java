@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.kafka.test.context.EmbeddedKafka;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.yandex.practicum.bank.client.account.api.AccountClient;
@@ -20,13 +22,15 @@ import ru.yandex.practicum.bank.client.blocker.api.BlockerClient;
 import ru.yandex.practicum.bank.client.blocker.model.CashCheckDto;
 import ru.yandex.practicum.bank.client.blocker.model.ResultCheckDto;
 import ru.yandex.practicum.bank.client.notification.api.NotificationClient;
+import ru.yandex.practicum.bank.common.config.KafkaConfig;
 import ru.yandex.practicum.bank.service.cash.config.JwtTestConfig;
 import ru.yandex.practicum.bank.service.cash.config.MockClientConfig;
 import ru.yandex.practicum.bank.service.cash.dto.CashTransactionDto;
 
 import java.math.BigDecimal;
 
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -34,7 +38,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@Import({ JwtTestConfig.class, MockClientConfig.class })
+@Import({JwtTestConfig.class, MockClientConfig.class})
+@EmbeddedKafka(partitions = 1, topics = {KafkaConfig.MAIL_TOPIC}, brokerProperties = {
+        "listeners=PLAINTEXT://localhost:9092",
+        "port=9092"
+})
+@DirtiesContext
 class CashControllerTest {
 
     @Autowired
@@ -79,9 +88,9 @@ class CashControllerTest {
         dto.setAmount(new BigDecimal("200.00"));
 
         mockMvc.perform(put("/put")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk());
     }
 
@@ -92,9 +101,9 @@ class CashControllerTest {
         dto.setAmount(new BigDecimal("500.00"));
 
         mockMvc.perform(put("/withdraw")
-                .header(AUTH_HEADER, BEARER_TOKEN)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(dto)))
+                        .header(AUTH_HEADER, BEARER_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk());
     }
 }

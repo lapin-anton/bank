@@ -28,8 +28,7 @@ public class CashController {
     }
 
     @PutMapping("/withdraw")
-    public ResponseEntity<Void> withdrawCash(@Valid @RequestBody CashTransactionDto transactionDto,
-            @CurrentUser User user) {
+    public ResponseEntity<Void> withdrawCash(@Valid @RequestBody CashTransactionDto transactionDto, @CurrentUser User user) {
         cashService.withdrawCash(transactionDto, user);
         notificationService.notifyWithdrawCash(transactionDto, user);
 

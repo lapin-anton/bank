@@ -16,7 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
-@AutoConfigureStubRunner(ids = "ru.yandex.practicum.bank:blocker-stubs:+:stubs:8082", stubsMode = StubRunnerProperties.StubsMode.LOCAL)
+@AutoConfigureStubRunner(
+        ids = "ru.yandex.practicum.bank:blocker-stubs:+:stubs:8082",
+        stubsMode = StubRunnerProperties.StubsMode.LOCAL
+)
 class BlockerApiContractTest {
 
     @Autowired

@@ -25,3 +25,4 @@ public class MockClientConfig {
         return Mockito.mock(NotificationClient.class);
     }
 }
+

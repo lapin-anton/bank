@@ -9,5 +9,4 @@ public class FrontUiPracticumBankApplication {
     public static void main(String[] args) {
         SpringApplication.run(FrontUiPracticumBankApplication.class, args);
     }
-
 }

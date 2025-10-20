@@ -14,22 +14,18 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.web.context.WebApplicationContext;
 import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.service.account.AccountServicePracticumBankApplication;
-import ru.yandex.practicum.bank.service.account.dto.AccountDto;
 import ru.yandex.practicum.bank.service.account.model.AccountStatus;
 import ru.yandex.practicum.bank.service.account.model.Currency;
 import ru.yandex.practicum.bank.service.account.service.AccountService;
 import ru.yandex.practicum.bank.service.account.service.impl.AccountServiceImpl;
+import ru.yandex.practicum.bank.service.account.dto.*;
+import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @SpringBootTest(classes = {AccountServicePracticumBankApplication.class, BaseContractTest.TestContractConfiguration.class})
 @ActiveProfiles("test")

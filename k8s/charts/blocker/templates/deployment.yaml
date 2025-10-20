@@ -33,3 +33,13 @@ spec:
                 configMapKeyRef:
                   name: blocker-config
                   key: SERVER_PORT
+            - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: blocker-config
+                  key: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+            - name: SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS
+              valueFrom:
+                configMapKeyRef:
+                  name: blocker-config
+                  key: SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS

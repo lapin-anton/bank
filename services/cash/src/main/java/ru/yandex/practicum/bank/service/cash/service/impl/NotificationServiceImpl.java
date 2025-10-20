@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.bank.common.config.KafkaConfig;
-import ru.yandex.practicum.bank.common.message.Mail;
+import ru.yandex.practicum.bank.common.massage.Mail;
 import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.service.cash.dto.CashTransactionDto;
 import ru.yandex.practicum.bank.service.cash.service.NotificationService;

@@ -21,9 +21,7 @@ import ru.yandex.practicum.bank.service.cash.service.NotificationService;
 import java.time.Instant;
 import java.util.List;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = {CashServicePracticumBankApplication.class, BaseContractTest.TestContractConfiguration.class})
 @ActiveProfiles("test")

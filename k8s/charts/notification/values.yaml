@@ -19,6 +19,7 @@ secrets:
 configMap:
   jwtIssuerUri: ""
   kafkaBootstrapServers: ""
+  zipkin: ""
 
 env:
   JAVA_OPTS: "-Xms256m -Xmx512m"

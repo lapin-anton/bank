@@ -6,3 +6,4 @@ data:
   SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: {{ .Values.configMap.jwtIssuerUri | default .Values.global.jwtIssuerUri | quote }}
   SERVER_PORT: {{ .Values.service.port | quote }}
   SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS: {{ .Values.configMap.kafkaBootstrapServers | default .Values.global.kafkaBootstrapServers | quote}}
+  MANAGEMENT_ZIPKIN_TRACING_ENDPOINT:  {{ .Values.configMap.zipkin | default .Values.global.zipkin | quote }}

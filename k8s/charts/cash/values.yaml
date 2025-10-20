@@ -15,6 +15,7 @@ env:
 configMap:
   jwtIssuerUri: ""
   kafkaBootstrapServers: ""
+  zipkin: ""
   api:
     account: ""
     cash: ""

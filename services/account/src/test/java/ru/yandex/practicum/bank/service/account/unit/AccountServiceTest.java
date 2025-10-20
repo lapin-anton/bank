@@ -11,11 +11,10 @@ import ru.yandex.practicum.bank.common.exception.NotFoundException;
 import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.service.account.dto.AccountDto;
 import ru.yandex.practicum.bank.service.account.mapper.AccountMapper;
-import ru.yandex.practicum.bank.service.account.model.Account;
-import ru.yandex.practicum.bank.service.account.model.AccountStatus;
-import ru.yandex.practicum.bank.service.account.model.Currency;
+import ru.yandex.practicum.bank.service.account.model.*;
 import ru.yandex.practicum.bank.service.account.repostory.AccountRepository;
 import ru.yandex.practicum.bank.service.account.service.AccountService;
+import ru.yandex.practicum.bank.service.account.service.NotificationService;
 import ru.yandex.practicum.bank.service.account.service.NumberAccountService;
 import ru.yandex.practicum.bank.service.account.service.impl.AccountServiceImpl;
 
@@ -23,16 +22,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @SpringJUnitConfig(classes = AccountServiceTest.Config.class)
 class AccountServiceTest {
@@ -45,8 +36,9 @@ class AccountServiceTest {
         @Bean AccountRepository accountRepository() { return mock(AccountRepository.class); }
         @Bean AccountMapper accountMapper() { return mock(AccountMapper.class); }
         @Bean NumberAccountService numberAccountService() { return mock(NumberAccountService.class); }
-        @Bean AccountService accountService(AccountRepository accountRepository, AccountMapper accountMapper, NumberAccountService numberAccountService) {
-            return new AccountServiceImpl(accountRepository, accountMapper, numberAccountService);
+        @Bean NotificationService notificationService() { return mock(NotificationService.class); }
+        @Bean AccountService accountService(AccountRepository accountRepository, AccountMapper accountMapper, NumberAccountService numberAccountService, NotificationService notificationService) {
+            return new AccountServiceImpl(accountRepository, accountMapper, numberAccountService, notificationService);
         }
     }
 

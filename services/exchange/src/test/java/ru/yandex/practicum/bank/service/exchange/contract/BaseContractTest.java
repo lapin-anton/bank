@@ -23,10 +23,7 @@ import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = {ExchangeServicePracticumBankApplication.class, BaseContractTest.TestContractConfiguration.class})
 @ActiveProfiles("test")

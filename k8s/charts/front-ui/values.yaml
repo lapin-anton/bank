@@ -13,6 +13,8 @@ configMap:
   jwtIssuerUri: ""
   keycloakTokenUrl: ""
   keycloakRedirectUrl: ""
+  kafkaBootstrapServers: ""
+  zipkin: ""
   api:
     account: ""
     cash: ""

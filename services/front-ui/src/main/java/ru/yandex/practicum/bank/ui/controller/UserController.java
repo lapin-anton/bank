@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.util.UriComponentsBuilder;
-import ru.yandex.practicum.bank.common.annotation.CurrentUser;
-import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.ui.config.KeycloakAdminProperty;
 import ru.yandex.practicum.bank.ui.dto.PasswordUserFormDto;
 import ru.yandex.practicum.bank.ui.dto.UserFormDto;
 import ru.yandex.practicum.bank.ui.service.UserService;
+import ru.yandex.practicum.bank.common.annotation.CurrentUser;
+import ru.yandex.practicum.bank.common.model.User;
 
 @Controller
 @RequiredArgsConstructor

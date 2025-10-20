@@ -5,6 +5,12 @@ spring:
   application:
     name: exchange-generator
 
+  kafka:
+    producer:
+      bootstrap-servers: ${SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS}
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
   security:
     oauth2:
       client:
@@ -19,6 +25,25 @@ spring:
             authorization-grant-type: client_credentials
             scope: openid
             provider: keycloak
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: ${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT:http://localhost:9411/api/v2/spans}
+
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 
 api:
   exchange: ${API_EXCHANGE:http://localhost:8080/api/exchange"}

@@ -18,6 +18,7 @@ configMap:
   jwtIssuerUri: ""
   kafkaBootstrapServers: ""
   keycloakTokenUrl: ""
+  zipkin: ""
   api:
     exchange: ""
 

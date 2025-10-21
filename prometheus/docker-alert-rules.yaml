@@ -1,0 +1,63 @@
+groups:
+  - name: http_errors
+    rules:
+      - alert: HighHttp5xxErrorRate
+        expr: |
+          sum(rate(http_server_requests_seconds_count{status=~"5.."}[1m])) 
+          / 
+          sum(rate(http_server_requests_seconds_count[1m])) 
+          > 0.1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Высокий процент 5xx ошибок"
+          description: "Более 10% запросов за минуту вернули 5xx"
+
+  - name: login_failures
+    rules:
+      - alert: HighLoginFailureRate
+        expr: |
+          sum by (login) (increase(custom_login_failure_total[5m])) > 5
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Слишком много неудачных логинов"
+          description: "Пользователь {{ $labels.login }} совершил более 5 неудачных логинов за 5 минут"
+
+  - name: fraud_detection
+    rules:
+      - alert: SuspiciousTransferBlocked
+        expr: |
+          increase(custom_transfer_blocked_total[1m]) > 0
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Заблокирован подозрительный перевод"
+          description: "Обнаружена подозрительная операция. Пользователь: {{ $labels.login }}"
+
+  - name: notification_failures
+    rules:
+      - alert: NotificationSendFailure
+        expr: |
+          increase(custom_notification_failure_total[5m]) > 0
+        for: 30s
+        labels:
+          severity: warning
+        annotations:
+          summary: "Ошибка отправки уведомления"
+          description: "Невозможно отправить уведомление пользователю {{ $labels.login }}"
+
+  - name: currency_rates
+    rules:
+      - alert: CurrencyRateNotUpdated
+        expr: |
+          increase(currency_rates_updated_total[10m]) == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Не обновлялся курс валют"
+          description: "Курс валют не обновлялся последние 10 минут"

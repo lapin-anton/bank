@@ -6,12 +6,12 @@ import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.ui.config.KeycloakAdminProperty;
 import ru.yandex.practicum.bank.ui.dto.PasswordUserFormDto;
 import ru.yandex.practicum.bank.ui.dto.UserFormDto;
 import ru.yandex.practicum.bank.ui.dto.UserItemDto;
 import ru.yandex.practicum.bank.ui.service.UserService;
+import ru.yandex.practicum.bank.common.model.User;
 
 import java.util.HashMap;
 import java.util.List;

@@ -3,6 +3,7 @@ global:
   keycloakTokenUrl: "http://practicum-bank/realms/bank/protocol/openid-connect/token"
   keycloakRedirectUrl: "http://practicum-bank/login/oauth2/code/{registrationId}"
   kafkaBootstrapServers: "kafka.kafka:9092"
+  zipkin: "http://zipkin:9411/api/v2/spans"
   api:
     account: "http://practicum-bank/api/account"
     cash: "http://practicum-bank/api/cash"
@@ -61,3 +62,231 @@ kafka:
         config:
           retention.ms: 259200000
           cleanup.policy: delete
+
+zipkin:
+  replicaCount: 1
+  service:
+    type: ClusterIP
+    port: 9411
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 200m
+      memory: 512Mi
+
+prometheus:
+  server:
+    global:
+      scrape_interval: 15s
+
+    configMapOverrideName: practicum-prometheus-config
+
+    extraScrapeConfigs:
+      - job_name: 'spring-app'
+        metrics_path: /actuator/prometheus
+        static_configs:
+          - targets:
+            - account:8082
+            - blocker:8087
+            - cash:8083
+            - exchange:8084
+            - exchange-generator:8085
+            - front-ui:8081
+            - notification:8088
+            - transfer:8086
+
+    additionalPrometheusRulesMap:
+      practicum-custom-rules:
+        groups:
+          - name: http_errors
+            rules:
+              - alert: HighHttp5xxErrorRate
+                expr: >
+                  sum(rate(http_server_requests_seconds_count{status=~"5.."}[1m])) 
+                  / 
+                  sum(rate(http_server_requests_seconds_count[1m])) 
+                  > 0.1
+                for: 2m
+                labels:
+                  severity: warning
+                annotations:
+                  summary: "Высокий процент 5xx ошибок"
+                  description: "Более 10% запросов за минуту вернули 5xx"
+
+          - name: login_failures
+            rules:
+              - alert: HighLoginFailureRate
+                expr: |
+                  sum by (login) (increase(custom_login_failure_total[5m])) > 5
+                for: 1m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: "Слишком много неудачных логинов"
+                  description: "Пользователь {{ $labels.login }} совершил более 5 неудачных логинов за 5 минут"
+
+          - name: fraud_detection
+            rules:
+              - alert: SuspiciousTransferBlocked
+                expr: |
+                  increase(custom_transfer_blocked_total[1m]) > 0
+                for: 0m
+                labels:
+                  severity: warning
+                annotations:
+                  summary: "Заблокирован подозрительный перевод"
+                  description: "Обнаружена подозрительная операция. Пользователь: {{ $labels.login }}"
+
+          - name: notification_failures
+            rules:
+              - alert: NotificationSendFailure
+                expr: |
+                  increase(custom_notification_failure_total[5m]) > 0
+                for: 30s
+                labels:
+                  severity: warning
+                annotations:
+                  summary: "Ошибка отправки уведомления"
+                  description: "Невозможно отправить уведомление пользователю {{ $labels.login }}"
+
+          - name: currency_rates
+            rules:
+              - alert: CurrencyRateNotUpdated
+                expr: |
+                  increase(currency_rates_updated_total[10m]) == 0
+                for: 2m
+                labels:
+                  severity: critical
+                annotations:
+                  summary: "Не обновлялся курс валют"
+                  description: "Курс валют не обновлялся последние 10 минут"
+
+grafana:
+  enabled: true
+
+  adminUser: admin
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  ingress:
+    enabled: false
+
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Prometheus
+          type: prometheus
+          access: proxy
+          url: http://practicum-bank-prometheus-server
+          isDefault: true
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: default
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+
+  dashboards:
+    default:
+      spring-boot:
+        gnetId: 10280
+        revision: 1
+        datasource: Prometheus
+      jvm-overview:
+        gnetId: 4701
+        revision: 2
+        datasource: Prometheus
+
+  persistence:
+    enabled: true
+    size: 1Gi
+
+logstash:
+  enabled: true
+  imageTag: 8.18.0
+  esJavaOpts: "-Xmx1g -Xms1g"
+  extraEnvs:
+    - name: LOGSTASH_SETTING_XPACK_MONITORING_ENABLED
+      value: "false"
+  logstashConfig:
+    logstash.yml: |
+      xpack.monitoring.enabled: false
+      xpack.monitoring.elasticsearch.hosts: ["https://elasticsearch:9200"]
+      xpack.monitoring.elasticsearch.ssl.verification_mode: "none"
+  logstashPipeline:
+    monitoring.conf: |
+      input {
+        kafka {
+          bootstrap_servers => "kafka.kafka:9092"
+          topics => ["microservice-logs"]
+          group_id => "logstash-group"
+        }
+      }
+      filter {
+        grok {
+          match => { "message" => "%{TIME:time} %{LOGLEVEL:log-level}%{SPACE} \[%{DATA:app}/%{DATA:method}/%{DATA:line}/%{DATA:traceId}/%{DATA:spanId}\]: %{GREEDYDATA:msg}" }
+        }
+      }
+      output {
+        elasticsearch {
+          hosts => ["https://elasticsearch:9200"]
+          index => "logs-%{+dd.MM.YYYY}"
+          retry_on_conflict => 3
+          action => "create"
+          ssl_enabled => true
+          ssl_verification_mode => "none"
+        }
+      }
+elasticsearch:
+  enabled: true
+  tls:
+    enabled: false
+  masterService: "elasticsearch"
+  imageTag: 8.18.0
+  replicas: 1
+  minimumMasterNodes: 1
+  esJavaOpts: "-Xmx1g -Xms1g"
+  clusterHealthCheckParams: ""
+  security:
+    enabled: true
+    elasticPassword: "elastic"
+    createDefaultSecret: true
+  esConfig:
+    elasticsearch.yml: |
+      xpack.security.http.ssl.enabled: false
+      xpack.security.enabled: true
+
+kibana:
+  enabled: false
+  replicaCount: 1
+  elasticsearchHosts: "https://elasticsearch:9200"
+  resources:
+    limits:
+      cpu: 500m
+      memory: 1Gi
+    requests:
+      cpu: 250m
+      memory: 512Mi
+  service:
+    type: NodePort
+    nodePort: 32000
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: kibana.example.com
+        paths:
+          - path: /
+            pathType: Prefix

@@ -5,6 +5,13 @@ spring:
   application:
     name: exchange
 
+  kafka:
+    consumer:
+      bootstrap-servers:  ${SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties.spring.json.trusted.packages: ru.yandex.practicum.bank.common.massage
+
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/exchange}
     username: ${SPRING_DATASOURCE_USERNAME}
@@ -19,6 +26,25 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: validate
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: ${MANAGEMENT_ZIPKIN_TRACING_ENDPOINT:http://localhost:9411/api/v2/spans}
+
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+
+  metrics:
+    export:
+      prometheus:
+        enabled: true
 
   security:
     oauth2:

@@ -53,3 +53,8 @@ spec:
                 configMapKeyRef:
                   name: exchange-config
                   key: SERVER_PORT
+            - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: exchange-config
+                  key: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT

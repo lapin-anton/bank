@@ -28,4 +28,4 @@ persistence:
     size: 1Gi
     accessModes: ["ReadWriteOnce"]
   theme:
-    hostPath: practicum-bank/keycloak-themes
+    hostPath: /Users/yandexaleksandr/PhpstormProjects/practicum-bank/keycloak-themes

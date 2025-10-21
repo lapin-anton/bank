@@ -6,7 +6,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.practicum.bank.common.config.KafkaConfig;
-import ru.yandex.practicum.bank.common.message.Rate;
+import ru.yandex.practicum.bank.common.massage.Rate;
+import ru.yandex.practicum.bank.common.service.MetricService;
 import ru.yandex.practicum.bank.service.exchange.dto.ConvertRequestDto;
 import ru.yandex.practicum.bank.service.exchange.dto.ConvertResponseDto;
 import ru.yandex.practicum.bank.service.exchange.dto.RateDto;
@@ -26,6 +27,7 @@ public class ExchangeServiceImpl implements ExchangeService {
     private static final Currency base = Currency.RUB;
 
     private final ExchangeRateRepository exchangeRateRepository;
+    private final MetricService metricService;
 
     @Override
     @Transactional
@@ -62,6 +64,8 @@ public class ExchangeServiceImpl implements ExchangeService {
         exchangeRate.setValue(rateDto.getValue());
 
         exchangeRateRepository.save(exchangeRate);
+
+        metricService.recordCurrencyRateUpdated();
     }
 
     @Override
@@ -81,6 +85,8 @@ public class ExchangeServiceImpl implements ExchangeService {
         exchangeRate.setValue(rateConsumerRecord.value().getValue());
 
         exchangeRateRepository.save(exchangeRate);
+
+        metricService.recordCurrencyRateUpdated();
     }
 
     @Override

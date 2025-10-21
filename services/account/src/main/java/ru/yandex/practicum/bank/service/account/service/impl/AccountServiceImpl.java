@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.yandex.practicum.bank.service.account.dto.AccountDto;
 import ru.yandex.practicum.bank.common.exception.BadRequestException;
 import ru.yandex.practicum.bank.common.exception.NotFoundException;
 import ru.yandex.practicum.bank.common.model.User;
-import ru.yandex.practicum.bank.service.account.dto.AccountDto;
 import ru.yandex.practicum.bank.service.account.mapper.AccountMapper;
 import ru.yandex.practicum.bank.service.account.model.Account;
 import ru.yandex.practicum.bank.service.account.model.AccountStatus;
@@ -15,6 +15,7 @@ import ru.yandex.practicum.bank.service.account.model.Currency;
 import ru.yandex.practicum.bank.service.account.repostory.AccountRepository;
 import ru.yandex.practicum.bank.service.account.service.AccountService;
 import ru.yandex.practicum.bank.service.account.service.NumberAccountService;
+import ru.yandex.practicum.bank.service.account.service.NotificationService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -29,6 +30,8 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper accountMapper;
 
     private final NumberAccountService numberAccountService;
+
+    private final NotificationService transferService;
 
     @Override
     public List<AccountDto> getAccounts(String userId) {
@@ -63,7 +66,11 @@ public class AccountServiceImpl implements AccountService {
 
         account = accountRepository.save(account);
 
-        return accountMapper.toDto(account);
+        AccountDto accountDto = accountMapper.toDto(account);
+
+        transferService.openAccount(accountDto, user);
+
+        return accountDto;
     }
 
     @Override

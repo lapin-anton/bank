@@ -18,7 +18,9 @@ import ru.yandex.practicum.bank.client.exchange.model.ConvertRequestDto;
 import ru.yandex.practicum.bank.client.exchange.model.ConvertResponseDto;
 import ru.yandex.practicum.bank.client.exchange.model.Currency;
 import ru.yandex.practicum.bank.common.model.User;
+import ru.yandex.practicum.bank.common.service.MetricService;
 import ru.yandex.practicum.bank.service.transfer.dto.TransferDto;
+import ru.yandex.practicum.bank.service.transfer.service.NotificationService;
 import ru.yandex.practicum.bank.service.transfer.service.TransferService;
 
 import java.util.Objects;
@@ -31,6 +33,8 @@ public class TransferServiceImpl implements TransferService {
     private final AccountClient accountClient;
     private final ExchangeClient exchangeClient;
     private final BlockerClient blockerClient;
+    private final MetricService metricService;
+    private final NotificationService notificationService;
 
     @Override
     @Retryable(
@@ -72,6 +76,8 @@ public class TransferServiceImpl implements TransferService {
 
             accountClient.changeBalance(accountTo.getId(), toChange);
 
+            notificationService.notify(transferDto, user);
+
         } catch (RuntimeException ex) {
             AccountDto updatedFrom = accountClient.getAccountByNumber(transferDto.getFromAccount());
 
@@ -93,6 +99,8 @@ public class TransferServiceImpl implements TransferService {
                 ex.getMessage(),
                 user
         );
+
+        metricService.recordTransferFailure(transferDto.getFromAccount(), transferDto.getToAccount());
 
         throw new IllegalStateException("Transfer failed and was rolled back. Manual intervention required.", ex);
     }

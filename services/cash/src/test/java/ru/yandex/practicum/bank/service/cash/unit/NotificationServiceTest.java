@@ -7,18 +7,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+
+import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.argThat;
+
 import ru.yandex.practicum.bank.common.config.KafkaConfig;
-import ru.yandex.practicum.bank.common.message.Mail;
+import ru.yandex.practicum.bank.common.massage.Mail;
 import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.service.cash.dto.CashTransactionDto;
 import ru.yandex.practicum.bank.service.cash.service.NotificationService;
 import ru.yandex.practicum.bank.service.cash.service.impl.NotificationServiceImpl;
-
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 
 
 @SpringJUnitConfig(classes = NotificationServiceTest.Config.class)

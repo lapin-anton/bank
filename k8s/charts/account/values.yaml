@@ -20,5 +20,7 @@ secrets:
 configMap:
   datasourceUrl: "jdbc:postgresql://postgres:5432/accounts"
   jwtIssuerUri: ""
+  zipkin: ""
+  kafkaBootstrapServers: ""
 
 resources: {}

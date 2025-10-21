@@ -9,10 +9,10 @@ import ru.yandex.practicum.bank.client.account.api.AccountClient;
 import ru.yandex.practicum.bank.client.account.model.OpenAccountDto;
 import ru.yandex.practicum.bank.client.cash.model.CashTransactionDto;
 import ru.yandex.practicum.bank.client.transfer.model.TransferDto;
-import ru.yandex.practicum.bank.common.annotation.CurrentUser;
-import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.ui.dto.PasswordUserFormDto;
 import ru.yandex.practicum.bank.ui.dto.UserFormDto;
+import ru.yandex.practicum.bank.common.annotation.CurrentUser;
+import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.ui.service.UserService;
 
 

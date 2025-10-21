@@ -1,8 +1,6 @@
 package ru.yandex.practicum.bank.service.exchange.integration;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.http.MediaType;
 import ru.yandex.practicum.bank.service.exchange.dto.ConvertRequestDto;
 import ru.yandex.practicum.bank.service.exchange.dto.RateDto;
@@ -10,10 +8,8 @@ import ru.yandex.practicum.bank.service.exchange.model.Currency;
 
 import java.math.BigDecimal;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 
 class ExchangeControllerTest extends AbstractIntegrationTest {

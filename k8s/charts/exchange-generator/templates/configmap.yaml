@@ -8,3 +8,4 @@ data:
   SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS: {{ .Values.configMap.kafkaBootstrapServers | default .Values.global.kafkaBootstrapServers | quote}}
   API_EXCHANGE: {{ .Values.configMap.api.exchange | default .Values.global.api.exchange | quote}}
   SERVER_PORT: {{ .Values.service.port | quote }}
+  MANAGEMENT_ZIPKIN_TRACING_ENDPOINT:  {{ .Values.configMap.zipkin | default .Values.global.zipkin | quote }}

@@ -1,7 +1,7 @@
 package ru.yandex.practicum.bank.service.account.service;
 
-import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.service.account.dto.AccountDto;
+import ru.yandex.practicum.bank.common.model.User;
 import ru.yandex.practicum.bank.service.account.model.Currency;
 
 import java.math.BigDecimal;

@@ -63,3 +63,8 @@ spec:
                 configMapKeyRef:
                   name: transfer-config
                   key: SPRING_KAFKA_PRODUCER_BOOTSTRAP_SERVERS
+            - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+              valueFrom:
+                configMapKeyRef:
+                  name: transfer-config
+                  key: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT

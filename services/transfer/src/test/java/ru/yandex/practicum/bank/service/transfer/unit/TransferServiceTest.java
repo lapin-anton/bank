@@ -16,7 +16,9 @@ import ru.yandex.practicum.bank.client.exchange.api.ExchangeClient;
 import ru.yandex.practicum.bank.client.exchange.model.ConvertResponseDto;
 import org.springframework.security.access.AccessDeniedException;
 import ru.yandex.practicum.bank.common.model.User;
+import ru.yandex.practicum.bank.common.service.MetricService;
 import ru.yandex.practicum.bank.service.transfer.dto.TransferDto;
+import ru.yandex.practicum.bank.service.transfer.service.NotificationService;
 import ru.yandex.practicum.bank.service.transfer.service.TransferService;
 import ru.yandex.practicum.bank.service.transfer.service.impl.TransferServiceImpl;
 
@@ -31,11 +33,34 @@ class TransferServiceTest {
 
     @Configuration
     static class Config {
-        @Bean AccountClient accountClient() { return mock(AccountClient.class); }
-        @Bean ExchangeClient exchangeClient() { return mock(ExchangeClient.class); }
-        @Bean BlockerClient blockerClient() { return mock(BlockerClient.class); }
-        @Bean TransferService transferService(AccountClient ac, ExchangeClient ec, BlockerClient bc) {
-            return new TransferServiceImpl(ac, ec, bc);
+        @Bean
+        AccountClient accountClient() {
+            return mock(AccountClient.class);
+        }
+
+        @Bean
+        ExchangeClient exchangeClient() {
+            return mock(ExchangeClient.class);
+        }
+
+        @Bean
+        BlockerClient blockerClient() {
+            return mock(BlockerClient.class);
+        }
+
+        @Bean
+        MetricService metricService() {
+            return mock(MetricService.class);
+        }
+
+        @Bean
+        NotificationService notificationService() {
+            return mock(NotificationService.class);
+        }
+
+        @Bean
+        TransferService transferService(AccountClient ac, ExchangeClient ec, BlockerClient bc, MetricService metricService, NotificationService notificationService) {
+            return new TransferServiceImpl(ac, ec, bc, metricService, notificationService);
         }
     }
 

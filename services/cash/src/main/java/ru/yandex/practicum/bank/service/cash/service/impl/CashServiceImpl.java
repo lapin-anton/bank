@@ -15,8 +15,10 @@ import ru.yandex.practicum.bank.client.blocker.model.CashCheckDto;
 import ru.yandex.practicum.bank.client.blocker.model.ResultCheckDto;
 import ru.yandex.practicum.bank.common.exception.BadRequestException;
 import ru.yandex.practicum.bank.common.model.User;
+import ru.yandex.practicum.bank.common.service.MetricService;
 import ru.yandex.practicum.bank.service.cash.dto.CashTransactionDto;
 import ru.yandex.practicum.bank.service.cash.service.CashService;
+import ru.yandex.practicum.bank.service.cash.service.NotificationService;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -28,6 +30,8 @@ public class CashServiceImpl implements CashService {
 
     private final AccountClient accountClient;
     private final BlockerClient blockerClient;
+    private final MetricService metricService;
+    private final NotificationService notificationService;
 
     @Override
     @Retryable(
@@ -49,6 +53,8 @@ public class CashServiceImpl implements CashService {
         changeBalanceDto.setVersion(accountDto.getVersion());
 
         accountClient.changeBalance(accountDto.getId(), changeBalanceDto);
+
+        notificationService.notifyPutCash(transactionDto, user);
     }
 
     @Override
@@ -72,6 +78,8 @@ public class CashServiceImpl implements CashService {
         changeBalanceDto.setVersion(accountDto.getVersion());
 
         accountClient.changeBalance(accountDto.getId(), changeBalanceDto);
+
+        notificationService.notifyWithdrawCash(transactionDto, user);
     }
 
     @Recover
@@ -81,6 +89,8 @@ public class CashServiceImpl implements CashService {
                 ex.getMessage(),
                 user
         );
+
+        metricService.recordTransferFailure(user.getLogin(), transactionDto.getAccountNumber());
 
         throw new IllegalStateException("Transfer failed and was rolled back. Manual intervention required.", ex);
     }

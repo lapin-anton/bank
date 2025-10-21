@@ -10,3 +10,4 @@ data:
   API_BLOCKER: {{ .Values.configMap.api.blocker | default .Values.global.api.blocker | quote}}
   API_NOTIFICATION: {{ .Values.configMap.api.notification | default .Values.global.api.notification | quote}}
   SERVER_PORT: {{ .Values.service.port | quote }}
+  MANAGEMENT_ZIPKIN_TRACING_ENDPOINT:  {{ .Values.configMap.zipkin | default .Values.global.zipkin | quote }}

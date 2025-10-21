@@ -38,3 +38,21 @@ dependencies:
   - name: kafka
     version: 32.3.1
     repository: "https://helm-charts.itboon.top/bitnami"
+  - name: zipkin
+    version: 0.3.6
+    repository: "https://openzipkin.github.io/zipkin-helm"
+  - name: prometheus
+    version: 27.28.0
+    repository: "https://prometheus-community.github.io/helm-charts"
+  - name: grafana
+    version: 7.0.0
+    repository: "https://grafana.github.io/helm-charts"
+  - name: logstash
+    version: 8.5.1
+    repository: "https://helm.elastic.co"
+  - name: elasticsearch
+    version: 8.5.1
+    repository: "https://helm.elastic.co"
+  - name: kibana
+    version: 8.5.1
+    repository: "https://helm.elastic.co"
